@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String user = mEditTextUser.getText().toString();
 
         if (user.isEmpty()) {
-            mEditTextUser.setError(getResources().getString(R.string.valid_user_name));
+            mEditTextUser.setError(getResources().getString(R.string.valid_user_name_message));
             return false;
         }
 

@@ -33,21 +33,21 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="Play"/>
+            android:text="@string/menu_play_button_text"/>
 
         <Button
             android:id="@+id/btn_viewHistory"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="View match history"/>
+            android:text="@string/menu_view_match_history_button_text"/>
 
         <Button
             android:id="@+id/btn_logout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="Logout"/>
+            android:text="@string/menu_logout_button_text"/>
 
     </LinearLayout>
 </ScrollView>
