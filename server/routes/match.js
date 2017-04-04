@@ -66,7 +66,7 @@ router.get('/player/history/:playerId', function (req, res, next) {
 /**
  * Creates the match with the player 1, player 2 and playing boolean set to FALSE. The playing boolean will be set to TRUE when the player 2 accept the match
  */
-router.post('/', function (req, res, next) {
+router.post('/challenge', function (req, res, next) {
     var match = new Match(req.body);
     match.player1_move = 'NONE';
     match.player2_move = 'NONE';

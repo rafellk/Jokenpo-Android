@@ -8,14 +8,17 @@ var Player = require('../models/player');
  */
 router.get('/id/:id', function (req, res, next) {
     let id = req.params.id;
+    console.log(id);
 
-    Player.findById(id, (error, player) => {
+    Player.findOne({_id: id}, (error, player) => {
         if (error) {
             res.status(500).json({
                 error: error
             });
             return;
         }
+
+        console.log(player);
 
         res.json(player);
     });
@@ -25,16 +28,13 @@ router.get('/id/:id', function (req, res, next) {
  * Retrieves the players that are logged in the server
  */
 router.get('/room', function (req, res, next) {
-    console.log("entered here");
     Player.find({ logged: true }, (error, players) => {
-        console.log("something happened here");
         if (error) {
             res.status(500).json({
                 error: error
             });
             return;
         }
-        console.log("returning the players");
 
         res.json(players);
     });
@@ -55,12 +55,12 @@ router.post('/signin', function (req, res, next) {
 });
 
 /**
- * Log out the specified user
+ * Logs out the specified user
  */
 router.put('/logout/:id', function (req, res, next) {
     let id = req.params.id;
 
-    Player.findOneAndUpdate({ _id: id }, req.body, { upsert: false }, (error, player) => {
+    Player.findOneAndUpdate({ _id: id }, { logged: false }, { upsert: false }, (error, player) => {
         if (error) {
             res.status(500).json(error);
             return;

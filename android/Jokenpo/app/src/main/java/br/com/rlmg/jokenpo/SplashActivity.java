@@ -3,12 +3,11 @@ package br.com.rlmg.jokenpo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class SplashActivity extends Activity {
 
-    private static int SPLASH_TIME_OUT = 3000;
+    private static int sSPLASH_TIME_OUT = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +17,13 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(SplashActivity.this, LoginActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                startActivity(intent);
 
                 finish();
             }
-        }, SPLASH_TIME_OUT);
+        }, sSPLASH_TIME_OUT);
     }
 }
+
+
