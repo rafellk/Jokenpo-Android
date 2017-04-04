@@ -8,7 +8,6 @@ var Player = require('../models/player');
  */
 router.get('/id/:id', function (req, res, next) {
     let id = req.params.id;
-    console.log(id);
 
     Player.findOne({_id: id}, (error, player) => {
         if (error) {
@@ -17,8 +16,6 @@ router.get('/id/:id', function (req, res, next) {
             });
             return;
         }
-
-        console.log(player);
 
         res.json(player);
     });
@@ -44,11 +41,14 @@ router.get('/room', function (req, res, next) {
  * Creates the player and set the logged boolean flag to true automatically
  */
 router.post('/signin', function (req, res, next) {
-    Player.findOneAndUpdate({ name: req.body.name }, req.body, { upsert: true }, (error, player) => {
+    Player.findOneAndUpdate({ name: req.body.name }, req.body, { upsert: true, new: true }, (error, player) => {
         if (error) {
             res.status(500).json(error);
+            console.log(error);
             return;
         }
+
+        console.log(player);
 
         res.status(201).json(player);
     });
