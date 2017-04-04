@@ -4,15 +4,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/jokenpo_icon"
+        android:icon="@drawable/jokenpo_logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/jokenpo_icon"
+        android:roundIcon="@drawable/jokenpo_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".SplashActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
-            >
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +21,11 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PlayerActivity"
+            android:label="@string/title_activity_player"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
