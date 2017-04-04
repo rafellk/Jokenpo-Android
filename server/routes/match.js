@@ -68,8 +68,6 @@ router.get('/player/history/:playerId', function (req, res, next) {
  */
 router.post('/challenge', function (req, res, next) {
     var match = new Match(req.body);
-    match.player1_move = 'NONE';
-    match.player2_move = 'NONE';
     
     match.save((error, match) => {
         if (error) {

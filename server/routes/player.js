@@ -41,6 +41,8 @@ router.get('/room', function (req, res, next) {
  * Creates the player and set the logged boolean flag to true automatically
  */
 router.post('/signin', function (req, res, next) {
+    req.body.logged = true;
+    
     Player.findOneAndUpdate({ name: req.body.name }, req.body, { upsert: true, new: true }, (error, player) => {
         if (error) {
             res.status(500).json(error);

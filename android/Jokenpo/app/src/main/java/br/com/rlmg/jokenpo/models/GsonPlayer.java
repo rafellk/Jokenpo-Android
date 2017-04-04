@@ -1,5 +1,7 @@
 package br.com.rlmg.jokenpo.models;
 
+import com.google.gson.Gson;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,7 +11,7 @@ import java.util.Date;
  * Created by rlmg on 4/3/17.
  */
 
-public class GsonPlayer {
+public class GsonPlayer implements GsonConverter<Player> {
 
     private String playing;
 
@@ -89,11 +91,7 @@ public class GsonPlayer {
         return "ClassPojo [playing = "+playing+", _id = "+_id+", name = "+name+", __v = "+__v+", created_at = "+created_at+", logged = "+logged+"]";
     }
 
-    /**
-     * Method that converts the string values from the gson model object into java friendly model object
-     *
-     * @return the converted java object
-     */
+    @Override
     public Player convert() {
         Date date = null;
         try {

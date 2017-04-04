@@ -13,10 +13,14 @@ var schema = new Schema({
         required: true
     },
     player1_move: {
+        type: String,
         enum: ['NONE','PAPER', 'ROCK', 'SCISSORS'],
+        default: 'NONE'
     },
     player2_move: {
+        type: String,
         enum: ['NONE','PAPER', 'ROCK', 'SCISSORS'],
+        default: 'NONE'
     },
     playing: {
         type: Boolean,
@@ -26,6 +30,7 @@ var schema = new Schema({
     winner: {
         type: Schema.Types.ObjectId,
         ref: 'Player',
+        default: null
     },
     created_at: {
         type: Date,
