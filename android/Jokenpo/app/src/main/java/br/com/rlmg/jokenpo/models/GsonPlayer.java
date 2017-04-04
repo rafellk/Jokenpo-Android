@@ -13,8 +13,6 @@ import java.util.Date;
 
 public class GsonPlayer implements GsonConverter<Player> {
 
-    private String playing;
-
     private String _id;
 
     private String name;
@@ -24,16 +22,6 @@ public class GsonPlayer implements GsonConverter<Player> {
     private String created_at;
 
     private String logged;
-
-    public String getPlaying ()
-    {
-        return playing;
-    }
-
-    public void setPlaying (String playing)
-    {
-        this.playing = playing;
-    }
 
     public String get_id ()
     {
@@ -88,7 +76,7 @@ public class GsonPlayer implements GsonConverter<Player> {
     @Override
     public String toString()
     {
-        return "ClassPojo [playing = "+playing+", _id = "+_id+", name = "+name+", __v = "+__v+", created_at = "+created_at+", logged = "+logged+"]";
+        return "ClassPojo [_id = "+_id+", name = "+name+", __v = "+__v+", created_at = "+created_at+", logged = "+logged+"]";
     }
 
     @Override

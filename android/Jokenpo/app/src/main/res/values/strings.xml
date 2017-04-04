@@ -3,4 +3,13 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_player">Jokenpo</string>
     <string name="preference_file_key">br.com.rlmg.jokenpo.PREFERENCE_FILE_KEY</string>
+
+    <!-- SHARED PREFERENCES -->
+
+    <!-- LOGIN ACTIVITY -->
+    <string name="valid_user_name">Enter a valid user name</string>
+    <string name="user_name_hint">User</string>
+    <string name="login_button">Login</string>
+    <string name="authentication_progress_dialog_title">Wait</string>
+    <string name="authentication_progress_dialog_message">Authenticating...</string>
 </resources>

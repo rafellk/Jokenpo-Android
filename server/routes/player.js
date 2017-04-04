@@ -24,8 +24,10 @@ router.get('/id/:id', function (req, res, next) {
 /**
  * Retrieves the players that are logged in the server
  */
-router.get('/room', function (req, res, next) {
-    Player.find({ logged: true }, (error, players) => {
+router.get('/room/:id', function (req, res, next) {
+    let id = req.params.id;
+
+    Player.find({ logged: true }).where('_id').ne(id).exec((error, players) => {
         if (error) {
             res.status(500).json({
                 error: error
@@ -42,15 +44,12 @@ router.get('/room', function (req, res, next) {
  */
 router.post('/signin', function (req, res, next) {
     req.body.logged = true;
-    
+
     Player.findOneAndUpdate({ name: req.body.name }, req.body, { upsert: true, new: true }, (error, player) => {
         if (error) {
             res.status(500).json(error);
-            console.log(error);
             return;
         }
-
-        console.log(player);
 
         res.status(201).json(player);
     });
@@ -68,7 +67,7 @@ router.put('/logout/:id', function (req, res, next) {
             return;
         }
 
-        res.sendStatus(200);
+        res.status(200).json(player);
     });
 });
 

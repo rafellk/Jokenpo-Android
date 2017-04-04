@@ -28,7 +28,7 @@ import br.com.rlmg.jokenpo.utils.Utils;
 
 public class WebService {
 
-    private static final String SERVER_URL = "http://10.0.2.2:3000";
+    private static final String SERVER_URL = "http://10.0.2.2:3003";
 
     /**
      * Constants that can be used as keys on the request results hashmap
@@ -36,6 +36,7 @@ public class WebService {
     public static final String sHTTP_ERROR = "http_error";
     public static final String sINTERNAL_ERROR = "internal_error";
     public static final String sRESPONSE_DATA = "data";
+    public static final String sRESPONSE_RAW_DATA = "raw_data";
 
     /**
      * A generic method that performs a get request with the specified endpoint, creates a Gson
@@ -89,17 +90,18 @@ public class WebService {
                     result.append(line);
                 }
 
-                map.put("data", (new Gson()).fromJson(result.toString(), targetClass));
+                map.put(sRESPONSE_DATA, (new Gson()).fromJson(result.toString(), targetClass));
+                map.put(sRESPONSE_RAW_DATA, result.toString());
 
                 reader.close();
             } else {
 
                 // Created an error HashMap that contains the http response code that failed
-                map.put("http_error", connection.getResponseCode());
+                map.put(sHTTP_ERROR, connection.getResponseCode());
             }
         } catch (IOException exception) {
             // TODO: Analyze the possible cases of problem to map into an error enumeration
-            map.put("internal_error", exception.getMessage());
+            map.put(sINTERNAL_ERROR, exception.getMessage());
         }
 
         return map;
@@ -124,11 +126,11 @@ public class WebService {
     }
 
     public static HashMap getPlayersOnline() {
-        return performRequest("/player/room", "GET", GsonPlayer.class);
+        return performRequest("/player/room/", "GET", GsonPlayer.class);
     }
 
     public static HashMap logout(String id) {
-        return performRequest("/player/logout" + id, "PUT", GsonPlayer.class);
+        return performRequest("/player/logout/" + id, "PUT", GsonPlayer.class);
     }
 
     public static HashMap getMatch(String id) {
@@ -151,7 +153,7 @@ public class WebService {
         Gson gson = new Gson();
         String json = gson.toJson(map);
 
-        return performRequest("/match/challenge", "POST", json, Match.class);
+        return performRequest("/match/challenge/", "POST", json, Match.class);
     }
 
     public static HashMap acceptChallenge(String matchId) {

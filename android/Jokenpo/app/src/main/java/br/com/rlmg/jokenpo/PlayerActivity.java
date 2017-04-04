@@ -1,11 +1,17 @@
 package br.com.rlmg.jokenpo;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.HashMap;
+
+import br.com.rlmg.jokenpo.utils.Utils;
+import br.com.rlmg.jokenpo.webservice.WebService;
 
 public class PlayerActivity extends AppCompatActivity {
 
@@ -19,9 +25,8 @@ public class PlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
-        Intent intent = getIntent();
         TextView textView = (TextView) findViewById(R.id.textView_User);
-        textView.setText(intent.getExtras().getString(Constants.EXTRA_USER));
+        textView.setText(Utils.loggedPlayer.getName());
 
         mButtonPlay = (Button) findViewById(R.id.btn_play);
         mButtonViewHistory = (Button) findViewById(R.id.btn_viewHistory);
@@ -51,8 +56,27 @@ public class PlayerActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method that makes an asynchronous logout request to the webserver
+     *
+     * @param v
+     */
     public void Logout(View v) {
-        Intent intent = new Intent(PlayerActivity.this, LoginActivity.class);
-        startActivity(intent);
+        new AsyncTask<String, Void, HashMap>() {
+            @Override
+            protected HashMap doInBackground(String... params) {
+                String id = params[0];
+                return WebService.logout(id);
+            }
+
+            @Override
+            protected void onPostExecute(HashMap hashMap) {
+                // TODO: show pop up if there was any kind of error during the request
+                Utils.loggedPlayer = null;
+
+                Intent intent = new Intent(PlayerActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        }.execute(Utils.loggedPlayer.getId());
     }
 }

@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 
 import br.com.rlmg.jokenpo.models.GsonPlayer;
 import br.com.rlmg.jokenpo.models.Player;
+import br.com.rlmg.jokenpo.utils.Utils;
 import br.com.rlmg.jokenpo.webservice.WebService;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
@@ -59,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String user = mEditTextUser.getText().toString();
 
         if (user.isEmpty()) {
-            mEditTextUser.setError("Enter a valid user name");
+            mEditTextUser.setError(getResources().getString(R.string.valid_user_name));
             return false;
         }
 
@@ -74,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             protected void onPreExecute() {
                 mBtnLogin.setEnabled(false);
-                mProgressDialog = ProgressDialog.show(LoginActivity.this, "Wait", "Authenticating...", true);
+                mProgressDialog = ProgressDialog.show(LoginActivity.this, getResources().getString(R.string.authentication_progress_dialog_title), getResources().getString(R.string.authentication_progress_dialog_message), true);
             }
 
             @Override
@@ -85,14 +87,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             protected void onPostExecute(HashMap hashMap) {
+                // TODO: show pop up if there was any kind of error during the request
                 mProgressDialog.dismiss();
-                Player player = ((GsonPlayer) hashMap.get(WebService.sRESPONSE_DATA)).convert();
-                // TODO: save the logged user to the application defaults
+                GsonPlayer gsonPlayer = (GsonPlayer) hashMap.get(WebService.sRESPONSE_DATA);
+                Player player = gsonPlayer.convert();
 
                 Intent intent = new Intent(LoginActivity.this, PlayerActivity.class);
 
-                // TODO: remove this in the future because we gonna get this value from the application defaults
-                intent.putExtra(Constants.EXTRA_USER, player.getName());
+                Utils.loggedPlayer = player;
 
                 startActivity(intent);
                 finish();
