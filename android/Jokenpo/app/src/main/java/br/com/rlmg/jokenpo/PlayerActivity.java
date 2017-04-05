@@ -1,5 +1,9 @@
 package br.com.rlmg.jokenpo;
 
+import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +28,31 @@ public class PlayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+
+        // if this intent contains extras then the notification was tapped and we should present a dialog to accept or decline
+        if (getIntent().getExtras() != null) {
+            String json = (String) getIntent().getExtras().get("json");
+            final NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            AlertDialog.Builder builder = Utils.buildSimpleDialog(getResources().getString(R.string.incomming_match_dialog_title), getResources().getString(R.string.incomming_match_dialog_message), this);
+            builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    manager.cancel(Utils.sNOTIFICATION_ID);
+                    dialog.dismiss();
+                }
+            });
+            builder.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    manager.cancel(Utils.sNOTIFICATION_ID);
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
 
         TextView textView = (TextView) findViewById(R.id.textView_User);
         textView.setText(Utils.sLoggedPlayer.getName());

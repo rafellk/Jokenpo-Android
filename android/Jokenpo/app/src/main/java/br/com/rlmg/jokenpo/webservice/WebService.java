@@ -17,6 +17,7 @@ import java.util.Map;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 
+import br.com.rlmg.jokenpo.models.GsonMatch;
 import br.com.rlmg.jokenpo.models.GsonPlayer;
 import br.com.rlmg.jokenpo.models.Match;
 import br.com.rlmg.jokenpo.models.Player;
@@ -137,15 +138,15 @@ public class WebService {
     }
 
     public static HashMap getMatch(String id) {
-        return performRequest("/match/" + id, "GET", Match.class);
+        return performRequest("/match/" + id, "GET", GsonMatch.class);
     }
 
     public static HashMap getMatchPlayerIsPlaying(String playerId) {
-        return performRequest("/match/player/playing/" + playerId, "GET", Match.class);
+        return performRequest("/match/player/playing/" + playerId, "GET", GsonMatch.class);
     }
 
     public static HashMap getMatchesPlayerHistory(String playerId) {
-        return performRequest("/match/player/history/" + playerId, "GET", Match.class);
+        return performRequest("/match/player/history/" + playerId, "GET", GsonMatch.class);
     }
 
     public static HashMap challengePlayer(String player1Id, String player2Id) {
@@ -156,22 +157,22 @@ public class WebService {
         Gson gson = new Gson();
         String json = gson.toJson(map);
 
-        return performRequest("/match/challenge/", "POST", json, Match.class);
+        return performRequest("/match/challenge/", "POST", json, GsonMatch.class);
     }
 
     public static HashMap acceptChallenge(String matchId) {
-        return performRequest("/match/accept/" + matchId, "PUT", Match.class);
+        return performRequest("/match/accept/" + matchId, "PUT", GsonMatch.class);
     }
 
     public static HashMap declineChallenge(String matchId) {
-        return performRequest("/match/decline/" + matchId, "DELETE", Match.class);
+        return performRequest("/match/decline/" + matchId, "DELETE", GsonMatch.class);
     }
 
     public static HashMap move(String matchId, String playerId, String move) {
-        return performRequest("/match/move/" + matchId + "/" + playerId + "/" + move, "PUT", Match.class);
+        return performRequest("/match/move/" + matchId + "/" + playerId + "/" + move, "PUT", GsonMatch.class);
     }
 
     public static HashMap ragequit(String matchId, String playerId) {
-        return performRequest("/match/ragequit/" + matchId + "/" + playerId, "PUT", Match.class);
+        return performRequest("/match/ragequit/" + matchId + "/" + playerId, "PUT", GsonMatch.class);
     }
 }

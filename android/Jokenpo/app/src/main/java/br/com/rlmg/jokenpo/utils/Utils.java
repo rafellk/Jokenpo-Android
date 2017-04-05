@@ -1,5 +1,6 @@
 package br.com.rlmg.jokenpo.utils;
 
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -32,20 +33,30 @@ public class Utils {
      * Message received notification constants
      */
     public static final String sMESSAGE_RECEIVED = "br.com.rlmg.jokenpo.MESSAGE_RECEIVED";
-    public static final String sCHALLENGE_PLAYERS = "CHALLENGE_PLAYERS";
+    public static final String sCHALLENGE_PLAYER = "CHALLENGE_PLAYER";
     public static final String sDECLINE_MATCH_REQUEST = "DECLINE_MATCH_REQUEST";
     public static final String sACCEPT_MATCH_REQUEST = "ACCEPT_MATCH_REQUEST";
     public static final String sPLAYER_MOVE = "PLAYER_MOVE";
     public static final String sMATCH_END = "MATCH_END";
+    public static final int sNOTIFICATION_ID = 1000;
 
+    public static AlertDialog.Builder buildSimpleDialog(String title, String message, Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message).setTitle(title);
 
-    public static void createSimpleNotification(Context context, String title, String content, Class activityClass) {
+        return builder;
+    }
+
+    public static void createSimpleNotification(Context context, String title, String content, Class activityClass, String json) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(content);
         Intent resultIntent = new Intent(context, activityClass);
+        if (json != null) {
+            resultIntent.putExtra("json", json);
+        }
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         // Adds the back stack for the Intent (but not the Intent itself)
@@ -55,10 +66,10 @@ public class Utils {
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(resultPendingIntent);
 
-        notificationManager.notify(1, builder.build());
+        notificationManager.notify(sNOTIFICATION_ID, builder.build());
     }
 
-    public static ProgressDialog createSimpleDialog(String title, String message, Context context) {
+    public static ProgressDialog createSimpleProgressDialog(String title, String message, Context context) {
         return ProgressDialog.show(context, title, message, true);
     }
 

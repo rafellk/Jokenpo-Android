@@ -77,37 +77,41 @@ router.post('/challenge', function (req, res, next) {
         { $or:[ { player1: player2 }, { player2: player2 } ] },
         { playing: true }
     ]}, (error, match) => {
-        if (!error && !match) {
+        if (!error && match) {
             res.json(null);
             return;
         }
-    });
-    
-    match.save((error, match) => {
-        if (error) {
-            res.status(500).json(error);
-            return;
-        }
 
-        Player.findById(match.player2, (error, player) => {
+        let newMatch = new Match(req.body);
+
+        newMatch.save((error, match) => {
             if (error) {
                 res.status(500).json(error);
                 return;
             }
-            
 
-            sendMessage([ player.token ], {
-                action: ACTIONS.CHALLENGE_PLAYER,
-                data: match
-            }, (error) => {
+            Player.findById(match.player1, (error, player) => {
                 if (error) {
-                    res.status(500).json({
-                        error: error
-                    });
+                    res.status(500).json(error);
                     return;
                 }
 
-                res.status(201).json(match);
+
+                sendMessage([ player.token ], {
+                    action: ACTIONS.CHALLENGE_PLAYER,
+                    notification: "true",
+                    data: JSON.stringify(match)
+                }, (error) => {
+                    if (error) {
+                        console.log(error);
+                        res.status(500).json({
+                            error: error
+                        });
+                        return;
+                    }
+
+                    res.status(201).json(match);
+                });
             });
         });
     });

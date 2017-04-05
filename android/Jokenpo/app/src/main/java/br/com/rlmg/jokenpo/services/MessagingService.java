@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.rlmg.jokenpo.PlayerActivity;
+import br.com.rlmg.jokenpo.R;
 import br.com.rlmg.jokenpo.models.GsonMatch;
 import br.com.rlmg.jokenpo.models.Match;
 import br.com.rlmg.jokenpo.models.Player;
@@ -24,20 +25,35 @@ public class MessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d("TAG", "From: " + remoteMessage.getFrom());
 
+//        // Check if message contains a notification payload.
+//        if (remoteMessage.getNotification() != null) {
+//            Log.d("TAG", "Message Notification Body: " + remoteMessage.getNotification().getBody());
+//            fireNotification(remoteMessage.getData());
+//            return;
+//        }
+
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d("TAG", "Message data payload: " + remoteMessage.getData());
-            fireBroadcast(remoteMessage.getData());
-        }
-
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            Log.d("TAG", "Message Notification Body: " + remoteMessage.getNotification().getBody());
-
+            handleData(remoteMessage.getData());
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
+    }
+
+    private void handleData(Map map) {
+        Gson gson = new Gson();
+        String json = gson.toJson(map);
+
+        final JsonObject jsonObject = (JsonObject) gson.fromJson(json, JsonObject.class);
+        boolean shouldNotify = jsonObject.get("notification").getAsBoolean();
+
+        if (shouldNotify) {
+            fireNotification(map);
+        } else {
+            fireBroadcast(map);
+        }
     }
 
     /**
@@ -63,11 +79,11 @@ public class MessagingService extends FirebaseMessagingService {
         Gson gson = new Gson();
         String json = gson.toJson(map);
 
-        JsonObject jsonObject = (JsonObject) gson.fromJson(json, JsonObject.class);
+        final JsonObject jsonObject = (JsonObject) gson.fromJson(json, JsonObject.class);
         String action = jsonObject.get("action").getAsString();
 
-        if (action == Utils.sCHALLENGE_PLAYERS) {
-            Match match = Utils.getMatchFromJson(jsonObject.get("data").getAsString());
+        if (action.equals(Utils.sCHALLENGE_PLAYER)) {
+            Match match = Utils.getMatchFromJson(jsonObject.get(WebService.sRESPONSE_DATA).getAsString());
 
             new AsyncTask<String, Void, HashMap>() {
                 @Override
@@ -79,9 +95,9 @@ public class MessagingService extends FirebaseMessagingService {
                 @Override
                 protected void onPostExecute(HashMap hashMap) {
                     Player player = Utils.getPlayerFromJson(hashMap);
-                    Utils.createSimpleNotification(MessagingService.this, "A new challenge", "The player "  + player.getName() + "challenged you for a match", PlayerActivity.class);
+                    Utils.createSimpleNotification(MessagingService.this, getResources().getString(R.string.challenge_notification_title), getResources().getString(R.string.challenge_notification_message, player.getName()), PlayerActivity.class, jsonObject.get(WebService.sRESPONSE_DATA).getAsString());
                 }
-            }.execute(match.getId());
+            }.execute(match.getPlayer1());
         }
     }
 }

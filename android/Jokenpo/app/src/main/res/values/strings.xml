@@ -1,8 +1,13 @@
 <resources>
+    <!-- General -->
     <string name="app_name">Jokenpo</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_player">Jokenpo</string>
     <string name="preference_file_key">br.com.rlmg.jokenpo.PREFERENCE_FILE_KEY</string>
+
+    <!-- Notifications -->
+    <string name="challenge_notification_title">New Challenge</string>
+    <string name="challenge_notification_message">%1$s is challenging you!!</string>
 
     <!-- Shared Preferences -->
 
@@ -17,9 +22,11 @@
     <string name="menu_play_button_text">PLAY</string>
     <string name="menu_view_match_history_button_text">VIEW MATCH HISTORY</string>
     <string name="menu_logout_button_text">LOGOUT</string>
+    <string name="incomming_match_dialog_title">Match Challenge</string>
+    <string name="incomming_match_dialog_message">Do you want to proceed?</string>
 
     <!-- Room Activity -->
     <string name="room_progress_dialog_title">Challenge</string>
-    <string name="room_progress_dialog_message">Waiting for player 2 to accept the match...</string>
+    <string name="room_progress_dialog_message">Waiting for Player 2 to accept the match</string>
 
 </resources>

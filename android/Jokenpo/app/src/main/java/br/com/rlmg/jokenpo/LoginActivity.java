@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             protected void onPreExecute() {
                 mBtnLogin.setEnabled(false);
-                mProgressDialog = Utils.createSimpleDialog(getResources().getString(R.string.authentication_progress_dialog_title), getResources().getString(R.string.authentication_progress_dialog_message), LoginActivity.this);
+                mProgressDialog = Utils.createSimpleProgressDialog(getResources().getString(R.string.authentication_progress_dialog_title), getResources().getString(R.string.authentication_progress_dialog_message), LoginActivity.this);
             }
 
             @Override

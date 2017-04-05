@@ -42,6 +42,7 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
     private List<Player> mFetchedPlayers;
     private SwipeRefreshLayout mRefreshLayout;
     private Match mMatch;
+    private BroadcastReceiver mReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +54,42 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         mListView = (ListView) findViewById(R.id.roomListView);
 
-        // registering the message received broadcast
+        registerBroadcast();
+        getPlayersOnline();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerBroadcast();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // needs this because this holds reference
+        mProgressDialog.dismiss();
+        mProgressDialog = null;
+    }
+
+    /**
+     * Method that register the message received broadcast
+     */
+    private void registerBroadcast() {
         IntentFilter intentFilter = new IntentFilter(Utils.sMESSAGE_RECEIVED);
-        registerReceiver(new BroadcastReceiver() {
+        mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 handleBroadcast(intent.getExtras().getString("map"));
             }
-        }, intentFilter);
-
-        getPlayersOnline();
+        };
+        registerReceiver(mReceiver, intentFilter);
     }
 
     /**
@@ -82,9 +109,12 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
                     Match match = (gson.fromJson(jsonObject.get(WebService.sRESPONSE_DATA).getAsString(), GsonMatch.class)).convert();
 
                     if (mMatch != null && mMatch.getId() == match.getId()) {
+                        mProgressDialog.dismiss();
+
                         Intent intent = new Intent(RoomActivity.this, PlayerActivity.class);
                         startActivity(intent);
                     }
+
                     break;
             }
         }
@@ -153,7 +183,7 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
         new AsyncTask<String, Void, HashMap>() {
             @Override
             protected void onPreExecute() {
-                mProgressDialog = Utils.createSimpleDialog(getResources().getString(R.string.room_progress_dialog_title), getResources().getString(R.string.room_progress_dialog_message), RoomActivity.this);
+                mProgressDialog = Utils.createSimpleProgressDialog(getResources().getString(R.string.room_progress_dialog_title), getResources().getString(R.string.room_progress_dialog_message), RoomActivity.this);
             }
 
             @Override
