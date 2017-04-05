@@ -1,13 +1,17 @@
 package br.com.rlmg.jokenpo;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -23,24 +27,41 @@ import br.com.rlmg.jokenpo.models.Player;
 import br.com.rlmg.jokenpo.utils.Utils;
 import br.com.rlmg.jokenpo.webservice.WebService;
 
-public class RoomActivity extends AppCompatActivity {
+public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private ProgressDialog mProgressDialog;
     private ListView mListView;
     private List<Player> mFetchedPlayers;
+    private SwipeRefreshLayout mRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
-        mListView = (ListView) findViewById(R.id.roomListView);
+        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
+        mRefreshLayout.setOnRefreshListener(this);
 
+        mListView = (ListView) findViewById(R.id.roomListView);
+        getPlayersOnline();
+    }
+
+    /**
+     * Method that registers the context to receive refresh event notifications
+     */
+    @Override
+    public void onRefresh() {
+        getPlayersOnline();
+    }
+
+    /**
+     * Method that retrieves the players currently online and update the list view with its refresh layout
+     */
+    private void getPlayersOnline() {
         new AsyncTask<Void, Void, HashMap>() {
             @Override
             protected void onPreExecute() {
-                // run spinner here
-                mProgressDialog = ProgressDialog.show(RoomActivity.this, getResources().getString(R.string.room_progress_dialog_title), getResources().getString(R.string.room_progress_dialog_message), true);
+                mRefreshLayout.setRefreshing(true);
             }
 
             @Override
@@ -50,6 +71,7 @@ public class RoomActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(HashMap hashMap) {
+                // TODO: handle http or any kind of error here before updating the UI
                 mFetchedPlayers = new ArrayList<Player>();
 
                 GsonPlayer gsonPlayer[] = (GsonPlayer[]) hashMap.get(WebService.sRESPONSE_DATA);
@@ -57,14 +79,29 @@ public class RoomActivity extends AppCompatActivity {
                     mFetchedPlayers.add(player.convert());
                 }
 
-                mListView.setAdapter(new RoomListViewAdapter());
-                mProgressDialog.dismiss();
+                setupListView();
+                mRefreshLayout.setRefreshing(false);
             }
         }.execute();
     }
 
+    /**
+     * Method that configures the list view adapter and OnItemClickListener observer
+     */
+    private void setupListView() {
+        mListView.setAdapter(new RoomListViewAdapter());
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(RoomActivity.this, PlayerActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
     static class ViewHolder {
-        TextView roomListViewItemText;
+        TextView roomListViewItemPlayerName;
     }
 
     private class RoomListViewAdapter extends BaseAdapter {
@@ -93,7 +130,7 @@ public class RoomActivity extends AppCompatActivity {
                 convertView = LayoutInflater.from(RoomActivity.this).inflate(R.layout.room_list_item, null);
 
                 holder = new ViewHolder();
-                holder.roomListViewItemText = (TextView) convertView.findViewById(R.id.roomListViewItemText);
+                holder.roomListViewItemPlayerName = (TextView) convertView.findViewById(R.id.roomListViewItemPlayerName);
 
                 convertView.setTag(holder);
 
@@ -101,7 +138,7 @@ public class RoomActivity extends AppCompatActivity {
                 holder = (ViewHolder)convertView.getTag();
             }
 
-            holder.roomListViewItemText.setText(player.getName());
+            holder.roomListViewItemPlayerName.setText(player.getName());
 
             return convertView;
         }
