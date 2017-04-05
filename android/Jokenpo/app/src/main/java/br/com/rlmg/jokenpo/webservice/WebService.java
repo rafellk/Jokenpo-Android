@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 
 import br.com.rlmg.jokenpo.models.GsonPlayer;
@@ -28,7 +29,7 @@ import br.com.rlmg.jokenpo.utils.Utils;
 
 public class WebService {
 
-    private static final String SERVER_URL = "http://10.0.2.2:3003";
+    private static final String sSERVER_URL = "http://10.0.2.2:3003";
 
     /**
      * Constants that can be used as keys on the request results hashmap
@@ -55,7 +56,7 @@ public class WebService {
         HashMap map = new HashMap();
 
         try {
-            URL url = new URL(SERVER_URL + endpoint);
+            URL url = new URL(sSERVER_URL + endpoint);
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setReadTimeout(10 * 1000);
@@ -114,6 +115,8 @@ public class WebService {
     public static HashMap signin(String name) {
         Map<String, String> map = new HashMap<>();
         map.put("name", name);
+        String token = FirebaseInstanceId.getInstance().getToken();
+        map.put("token", FirebaseInstanceId.getInstance().getToken());
 
         Gson gson = new Gson();
         String json = gson.toJson(map);

@@ -17,6 +17,8 @@ public class GsonPlayer implements GsonConverter<Player> {
 
     private String name;
 
+    private String token;
+
     private String __v;
 
     private String created_at;
@@ -73,10 +75,18 @@ public class GsonPlayer implements GsonConverter<Player> {
         this.logged = logged;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     @Override
     public String toString()
     {
-        return "ClassPojo [_id = "+_id+", name = "+name+", __v = "+__v+", created_at = "+created_at+", logged = "+logged+"]";
+        return "ClassPojo [_id = "+_id+", name = "+name+", token = "+token+", __v = "+__v+", created_at = "+created_at+", logged = "+logged+"]";
     }
 
     @Override
@@ -89,6 +99,6 @@ public class GsonPlayer implements GsonConverter<Player> {
             return null;
         }
 
-        return new Player(_id, name, new Boolean(logged), new Integer(__v), date);
+        return new Player(_id, name, token, new Boolean(logged), new Integer(__v), date);
     }
 }

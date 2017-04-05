@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
-
 var Match = require('../models/match');
+var Player = require('../models/player');
+var firebaseHelper = require('./firebase.helper');
+var sendMessage = firebaseHelper.sendMessage;
+var ACTIONS = firebaseHelper.actions;
 
 /**
  * Retrieves the match that is mapped by the specified id
@@ -67,7 +70,18 @@ router.get('/player/history/:playerId', function (req, res, next) {
  * Creates the match with the player 1, player 2 and playing boolean set to FALSE. The playing boolean will be set to TRUE when the player 2 accept the match
  */
 router.post('/challenge', function (req, res, next) {
-    var match = new Match(req.body);
+    let match = new Match(req.body);
+    let player2 = req.body.player2;
+
+    Match.findOne({ $and: [
+        { $or:[ { player1: player2 }, { player2: player2 } ] },
+        { playing: true }
+    ]}, (error, match) => {
+        if (!error && !match) {
+            res.json(null);
+            return;
+        }
+    });
     
     match.save((error, match) => {
         if (error) {
@@ -75,9 +89,27 @@ router.post('/challenge', function (req, res, next) {
             return;
         }
 
-        // TODO: fire gcm service to the player 2 sending the match id
+        Player.findById(match.player2, (error, player) => {
+            if (error) {
+                res.status(500).json(error);
+                return;
+            }
+            
 
-        res.status(201).json(match);
+            sendMessage([ player.token ], {
+                action: ACTIONS.CHALLENGE_PLAYER,
+                data: match
+            }, (error) => {
+                if (error) {
+                    res.status(500).json({
+                        error: error
+                    });
+                    return;
+                }
+
+                res.status(201).json(match);
+            });
+        });
     });
 });
 
@@ -93,9 +125,26 @@ router.put('/accept/:id', function (req, res, next) {
             return;
         }
 
-        // TODO: fire gcm service to the player 1 accepting the request
+        Player.findById(match.player1, (error, player) => {
+            if (error) {
+                res.status(500).json(error);
+                return;
+            }
+            
+            sendMessage([ player.token ], {
+                action: ACTIONS.ACCEPT_MATCH_REQUEST,
+                data: match
+            }, (error) => {
+                if (error) {
+                    res.status(500).json({
+                        error: error
+                    });
+                    return;
+                }
 
-        res.sendStatus(200);
+                res.status(201).json(match);
+            });
+        });
     });
 });
 
@@ -111,7 +160,11 @@ router.delete('/decline/:id', function (req, res, next) {
             return;
         }
 
-        // TODO: fire gcm service to the player 1 declining the request
+        // // TODO: fire gcm service to the player 2 sending the match id
+        // sendMessage(match.player2, {
+        //     action: ACTIONS.CHALLENGE_PLAYER,
+        //     data: match
+        // });
 
         res.sendStatus(200);
     });
@@ -188,10 +241,33 @@ router.put('/move/:matchId/:playerId/:move', function (req, res, next) {
             }
 
             if (!match.playing) {
-                // TODO: fire gcm service to both players informing the winner
-            }
+                Player.find($or [ { _id: match.player1 }, { _id: match.player2 }], (error, players) => {
+                    if (error) {
+                        res.status(500).json(error);
+                        return;
+                    }
 
-            res.sendStatus(200);
+                    let tokens = [];
+
+                    for (let player in players) {
+                        tokens.push(player.token);
+                    }
+                    
+                    sendMessage(tokens, {
+                        action: ACTIONS.MATCH_END,
+                        data: match
+                    }, (error) => {
+                        if (error) {
+                            res.status(500).json({
+                                error: error
+                            });
+                            return;
+                        }
+
+                        res.status(201).json(match);
+                    });
+                });
+            }
         });
     });
 });
@@ -217,9 +293,26 @@ router.put('/ragequit/:matchId/:playerId', function (req, res, next) {
                 return;
             }
 
-            // TODO: fire gcm service to both players informing the winner 
+            Player.findById(match.winner, (error, player) => {
+                if (error) {
+                    res.status(500).json(error);
+                    return;
+                }
+                
+                sendMessage([ player.token ], {
+                    action: ACTIONS.MATCH_END,
+                    data: match
+                }, (error) => {
+                    if (error) {
+                        res.status(500).json({
+                            error: error
+                        });
+                        return;
+                    }
 
-            res.status(200).json(match);
+                    res.status(201).json(match);
+                });
+            });
         });
     });
 });

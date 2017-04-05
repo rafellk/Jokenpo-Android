@@ -4,8 +4,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TaskStackBuilder;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,10 +15,15 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.util.HashMap;
 
@@ -40,6 +47,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mEditTextUser = (EditText) findViewById(R.id.editTextUser);
 
         mBtnLogin.setOnClickListener(this);
+
+//        IntentFilter intentFilter = new IntentFilter(Utils.sMESSAGE_RECEIVED);
+//        registerReceiver(new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                handleBroadcast(intent.getExtras().getString("map"));
+//            }
+//        }, intentFilter);
+
     }
 
     @Override
@@ -94,11 +110,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 Intent intent = new Intent(LoginActivity.this, PlayerActivity.class);
 
-                Utils.loggedPlayer = player;
+                Utils.sLoggedPlayer = player;
 
                 startActivity(intent);
                 finish();
             }
         }.execute(mEditTextUser.getText().toString());
     }
+
+//    /**
+//     * Method that handles the message received broadcast
+//     *
+//     * @param json - String that represents the message content in json
+//     */
+//    private void handleBroadcast(String json) {
+//        Gson gson = new Gson();
+//        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+//
+//        if (jsonObject != null) {
+//            String action = jsonObject.get("action").getAsString();
+//            Log.v("BROADCAST", "It actually worked: " + action);
+//        }
+//    }
 }

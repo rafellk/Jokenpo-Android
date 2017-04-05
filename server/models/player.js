@@ -6,6 +6,9 @@ var schema = new Schema({
         type: String,
         required: true
     },
+    token: {
+        type: String
+    },
     logged: {
         type: Boolean,
         required: true

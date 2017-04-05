@@ -26,7 +26,7 @@ public class PlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_player);
 
         TextView textView = (TextView) findViewById(R.id.textView_User);
-        textView.setText(Utils.loggedPlayer.getName());
+        textView.setText(Utils.sLoggedPlayer.getName());
 
         mButtonPlay = (Button) findViewById(R.id.btn_play);
         mButtonViewHistory = (Button) findViewById(R.id.btn_viewHistory);
@@ -72,11 +72,11 @@ public class PlayerActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(HashMap hashMap) {
                 // TODO: show pop up if there was any kind of error during the request
-                Utils.loggedPlayer = null;
+                Utils.sLoggedPlayer = null;
 
                 Intent intent = new Intent(PlayerActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
-        }.execute(Utils.loggedPlayer.getId());
+        }.execute(Utils.sLoggedPlayer.getId());
     }
 }

@@ -10,6 +10,7 @@ public class Player {
 
     private String id;
     private String name;
+    private String firebaseToken;
     private boolean logged;
     private int version;
     private Date createdAt;
@@ -18,9 +19,10 @@ public class Player {
     public Player() {
     }
 
-    public Player(String id, String name, boolean logged, int version, Date createdAt) {
+    public Player(String id, String name, String firebaseToken, boolean logged, int version, Date createdAt) {
         this.id = id;
         this.name = name;
+        this.firebaseToken = firebaseToken;
         this.logged = logged;
         this.version = version;
         this.createdAt = createdAt;
@@ -64,5 +66,13 @@ public class Player {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getFirebaseToken() {
+        return firebaseToken;
+    }
+
+    public void setFirebaseToken(String firebaseToken) {
+        this.firebaseToken = firebaseToken;
     }
 }

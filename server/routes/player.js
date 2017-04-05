@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
-
+var firebaseHelper = require('./firebase.helper');
+var sendMessage = firebaseHelper.sendMessage;
+var ACTIONS = firebaseHelper.actions;
 var Player = require('../models/player');
+var Match = require('../models/match');
 
 /**
  * Retrieves the player that is mapped by the specified id
@@ -10,6 +13,24 @@ router.get('/id/:id', function (req, res, next) {
     let id = req.params.id;
 
     Player.findOne({_id: id}, (error, player) => {
+        if (error) {
+            res.status(500).json({
+                error: error
+            });
+            return;
+        }
+
+        res.json(player);
+    });
+});
+
+/**
+ * Retrieves the player that is mapped by the specified id
+ */
+router.get('/token/:token', function (req, res, next) {
+    let token = req.params.token;
+
+    Player.findOne({token: token}, (error, player) => {
         if (error) {
             res.status(500).json({
                 error: error
@@ -35,7 +56,24 @@ router.get('/room/:id', function (req, res, next) {
             return;
         }
 
-        res.json(players);
+        let validPlayers = [];
+
+        for (let player in players) {
+            Match.findOne({ $and: [
+                { $or:[ { player1: playerId }, { player2: playerId } ] },
+                { playing: true }
+            ]}, (error, match) => {
+                if (!error && !match) {
+                    validPlayers.push(player);
+                }
+            });
+        }
+
+        if (validPlayers.length == 0) {
+            validPlayers = null;
+        }
+
+        res.json(validPlayers);
     });
 });
 
@@ -61,7 +99,7 @@ router.post('/signin', function (req, res, next) {
 router.put('/logout/:id', function (req, res, next) {
     let id = req.params.id;
 
-    Player.findOneAndUpdate({ _id: id }, { logged: false }, { upsert: false }, (error, player) => {
+    Player.findOneAndUpdate({ _id: id }, { logged: false, token: null }, { upsert: false }, (error, player) => {
         if (error) {
             res.status(500).json(error);
             return;
