@@ -2,11 +2,13 @@ package br.com.rlmg.jokenpo.utils;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import br.com.rlmg.jokenpo.LoginActivity;
 import br.com.rlmg.jokenpo.R;
 import br.com.rlmg.jokenpo.models.Player;
 
@@ -46,5 +48,9 @@ public class Utils {
         builder.setContentIntent(resultPendingIntent);
 
         notificationManager.notify(1, builder.build());
+    }
+
+    public static ProgressDialog createSimpleDialog(String title, String message, Context context) {
+        return ProgressDialog.show(context, title, message, true);
     }
 }

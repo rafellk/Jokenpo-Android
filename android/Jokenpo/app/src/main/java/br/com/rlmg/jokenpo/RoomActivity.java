@@ -1,7 +1,10 @@
 package br.com.rlmg.jokenpo;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,11 +21,16 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import br.com.rlmg.jokenpo.models.GsonMatch;
 import br.com.rlmg.jokenpo.models.GsonPlayer;
+import br.com.rlmg.jokenpo.models.Match;
 import br.com.rlmg.jokenpo.models.Player;
 import br.com.rlmg.jokenpo.utils.Utils;
 import br.com.rlmg.jokenpo.webservice.WebService;
@@ -33,6 +41,7 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
     private ListView mListView;
     private List<Player> mFetchedPlayers;
     private SwipeRefreshLayout mRefreshLayout;
+    private Match mMatch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +52,42 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
         mRefreshLayout.setOnRefreshListener(this);
 
         mListView = (ListView) findViewById(R.id.roomListView);
+
+        // registering the message received broadcast
+        IntentFilter intentFilter = new IntentFilter(Utils.sMESSAGE_RECEIVED);
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                handleBroadcast(intent.getExtras().getString("map"));
+            }
+        }, intentFilter);
+
         getPlayersOnline();
+    }
+
+    /**
+     * Method that handles the message received broadcast
+     *
+     * @param json - String that represents the message content in json
+     */
+    private void handleBroadcast(String json) {
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+
+        if (jsonObject != null) {
+            String action = jsonObject.get("action").getAsString();
+
+            switch (action) {
+                case Utils.sACCEPT_MATCH_REQUEST:
+                    Match match = (gson.fromJson(jsonObject.get(WebService.sRESPONSE_DATA).getAsString(), GsonMatch.class)).convert();
+
+                    if (mMatch != null && mMatch.getId() == match.getId()) {
+                        Intent intent = new Intent(RoomActivity.this, PlayerActivity.class);
+                        startActivity(intent);
+                    }
+                    break;
+            }
+        }
     }
 
     /**
@@ -94,10 +138,36 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(RoomActivity.this, PlayerActivity.class);
-                startActivity(intent);
+                Player player = mFetchedPlayers.get(position);
+                challengePlayer(player.getId());
             }
         });
+    }
+
+    /**
+     * Method that creates a match using the logged player and the specified player
+     *
+     * @param playerId - String that represents the id of the player that will be challenged
+     */
+    private void challengePlayer(String playerId) {
+        new AsyncTask<String, Void, HashMap>() {
+            @Override
+            protected void onPreExecute() {
+                mProgressDialog = Utils.createSimpleDialog(getResources().getString(R.string.room_progress_dialog_title), getResources().getString(R.string.room_progress_dialog_message), RoomActivity.this);
+            }
+
+            @Override
+            protected HashMap doInBackground(String... params) {
+                String id = params[0];
+                return WebService.challengePlayer(Utils.sLoggedPlayer.getId(), id);
+            }
+
+            @Override
+            protected void onPostExecute(HashMap hashMap) {
+                GsonMatch gsonMatch = (GsonMatch) hashMap.get(WebService.sRESPONSE_DATA);
+                mMatch = gsonMatch.convert();
+            }
+        }.execute(playerId);
     }
 
     static class ViewHolder {

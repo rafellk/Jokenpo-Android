@@ -116,6 +116,6 @@ public class GsonMatch implements GsonConverter<Match>{
             return null;
         }
 
-        return new Match(player1, player2, player1_move, player2_move, Boolean.parseBoolean(playing), winner, date);
+        return new Match(_id, player1, player2, player1_move, player2_move, Boolean.parseBoolean(playing), winner, date);
     }
 }

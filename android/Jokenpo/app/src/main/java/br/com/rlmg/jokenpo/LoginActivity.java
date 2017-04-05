@@ -47,15 +47,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mEditTextUser = (EditText) findViewById(R.id.editTextUser);
 
         mBtnLogin.setOnClickListener(this);
-
-//        IntentFilter intentFilter = new IntentFilter(Utils.sMESSAGE_RECEIVED);
-//        registerReceiver(new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                handleBroadcast(intent.getExtras().getString("map"));
-//            }
-//        }, intentFilter);
-
     }
 
     @Override
@@ -92,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             protected void onPreExecute() {
                 mBtnLogin.setEnabled(false);
-                mProgressDialog = ProgressDialog.show(LoginActivity.this, getResources().getString(R.string.authentication_progress_dialog_title), getResources().getString(R.string.authentication_progress_dialog_message), true);
+                mProgressDialog = Utils.createSimpleDialog(getResources().getString(R.string.authentication_progress_dialog_title), getResources().getString(R.string.authentication_progress_dialog_message), LoginActivity.this);
             }
 
             @Override
@@ -117,19 +108,4 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }.execute(mEditTextUser.getText().toString());
     }
-
-//    /**
-//     * Method that handles the message received broadcast
-//     *
-//     * @param json - String that represents the message content in json
-//     */
-//    private void handleBroadcast(String json) {
-//        Gson gson = new Gson();
-//        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
-//
-//        if (jsonObject != null) {
-//            String action = jsonObject.get("action").getAsString();
-//            Log.v("BROADCAST", "It actually worked: " + action);
-//        }
-//    }
 }

@@ -19,7 +19,7 @@
     <string name="menu_logout_button_text">LOGOUT</string>
 
     <!-- Room Activity -->
-    <string name="room_progress_dialog_title">Wait</string>
-    <string name="room_progress_dialog_message">Retrieving data...</string>
+    <string name="room_progress_dialog_title">Challenge</string>
+    <string name="room_progress_dialog_message">Waiting for player 2 to accept the match...</string>
 
 </resources>

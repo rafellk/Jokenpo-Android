@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class Match {
 
+    private String id;
     private String player1;
     private String player2;
     private String player1Move;
@@ -19,8 +20,9 @@ public class Match {
     public Match() {
     }
 
-    public Match(String player1, String player2, String player1Move, String player2Move, boolean
+    public Match(String id, String player1, String player2, String player1Move, String player2Move, boolean
             playing, String winner, Date createdAt) {
+        this.id = id;
         this.player1 = player1;
         this.player2 = player2;
         this.player1Move = player1Move;
@@ -28,6 +30,14 @@ public class Match {
         this.playing = playing;
         this.winner = winner;
         this.createdAt = createdAt;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getPlayer1() {
