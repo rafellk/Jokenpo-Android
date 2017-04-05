@@ -128,8 +128,8 @@ public class WebService {
         return performRequest("/player/id/" + id, "GET", GsonPlayer.class);
     }
 
-    public static HashMap getPlayersOnline() {
-        return performRequest("/player/room/", "GET", GsonPlayer.class);
+    public static HashMap getPlayersOnline(String id) {
+        return performRequest("/player/room/" + id, "GET", GsonPlayer[].class);
     }
 
     public static HashMap logout(String id) {

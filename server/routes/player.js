@@ -56,24 +56,21 @@ router.get('/room/:id', function (req, res, next) {
             return;
         }
 
-        let validPlayers = [];
+        // players.forEach( (player) => {
+        //     Match.findOne({ $and: [
+        //         { $or:[ { player1: id }, { player2: id } ] },
+        //         { playing: true }
+        //     ]}, (error, match) => {
+        //         if (!error && !match) {
+        //             let index = players.indexOf(player);
+        //             if (index > -1) {
+        //                 player.slice(index);
+        //             }
+        //         }
+        //     });
+        // }, this);
 
-        for (let player in players) {
-            Match.findOne({ $and: [
-                { $or:[ { player1: playerId }, { player2: playerId } ] },
-                { playing: true }
-            ]}, (error, match) => {
-                if (!error && !match) {
-                    validPlayers.push(player);
-                }
-            });
-        }
-
-        if (validPlayers.length == 0) {
-            validPlayers = null;
-        }
-
-        res.json(validPlayers);
+        res.json(players);
     });
 });
 

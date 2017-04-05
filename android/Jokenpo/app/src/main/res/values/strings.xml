@@ -18,4 +18,8 @@
     <string name="menu_view_match_history_button_text">VIEW MATCH HISTORY</string>
     <string name="menu_logout_button_text">LOGOUT</string>
 
+    <!-- Room Activity -->
+    <string name="room_progress_dialog_title">Wait</string>
+    <string name="room_progress_dialog_message">Retrieving data...</string>
+
 </resources>

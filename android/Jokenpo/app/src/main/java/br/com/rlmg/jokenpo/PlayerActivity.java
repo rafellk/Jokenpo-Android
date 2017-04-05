@@ -49,7 +49,8 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     public void play(View v) {
-
+        Intent intent = new Intent(PlayerActivity.this, RoomActivity.class);
+        startActivity(intent);
     }
 
     public void viewHistory(View v) {

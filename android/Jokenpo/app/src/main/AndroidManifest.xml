@@ -30,19 +30,19 @@
             android:label="@string/title_activity_player"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <service
-            android:name=".services.MessagingService">
+        <service android:name=".services.MessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-
-        <service
-            android:name=".services.InstanceService">
+        <service android:name=".services.InstanceService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+
+        <activity android:name=".RoomActivity">
+        </activity>
     </application>
 
 </manifest>
