@@ -1,8 +1,10 @@
 package br.com.rlmg.jokenpo;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.DataSetObserver;
@@ -67,29 +69,42 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(mReceiver);
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+            mReceiver = null;
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+            mReceiver = null;
+        }
+
         // needs this because this holds reference
-        mProgressDialog.dismiss();
-        mProgressDialog = null;
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
     }
 
     /**
      * Method that register the message received broadcast
      */
     private void registerBroadcast() {
-        IntentFilter intentFilter = new IntentFilter(Utils.sMESSAGE_RECEIVED);
-        mReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                handleBroadcast(intent.getExtras().getString("map"));
-            }
-        };
-        registerReceiver(mReceiver, intentFilter);
+        if (mReceiver == null) {
+            IntentFilter intentFilter = new IntentFilter(Utils.sMESSAGE_RECEIVED);
+            mReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    handleBroadcast(intent.getExtras().getString("map"));
+                }
+            };
+            registerReceiver(mReceiver, intentFilter);
+        }
     }
 
     /**
@@ -103,16 +118,39 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         if (jsonObject != null) {
             String action = jsonObject.get("action").getAsString();
+            Match match = null;
 
             switch (action) {
                 case Utils.sACCEPT_MATCH_REQUEST:
-                    Match match = (gson.fromJson(jsonObject.get(WebService.sRESPONSE_DATA).getAsString(), GsonMatch.class)).convert();
+                    match = (gson.fromJson(jsonObject.get(WebService.sRESPONSE_DATA).getAsString(), GsonMatch.class)).convert();
 
+                    // if this is the match that I am waiting for so it should be good
                     if (mMatch != null && mMatch.getId() == match.getId()) {
                         mProgressDialog.dismiss();
 
                         Intent intent = new Intent(RoomActivity.this, PlayerActivity.class);
                         startActivity(intent);
+                    }
+
+                    break;
+                case Utils.sDECLINE_MATCH_REQUEST:
+                    match = (gson.fromJson(jsonObject.get(WebService.sRESPONSE_DATA).getAsString(), GsonMatch.class)).convert();
+
+                    // if this is the match I am waiting for so it should be good. Dismiss the progress dialog and show an alert dialog informing the match was declined
+                    if ((mMatch != null && mMatch.getId().equals(match.getId())) && (match.getPlayer1().equals(Utils.sLoggedPlayer.getId()) || match.getPlayer2().equals(Utils.sLoggedPlayer.getId()))) {
+                        mProgressDialog.dismiss();
+
+                        AlertDialog.Builder builder = Utils.buildSimpleDialog(getResources().getString(R.string.declined_match_dialog_title), getResources().getString(R.string.declined_match_dialog_message), RoomActivity.this);
+
+                        builder.setPositiveButton(getResources().getString(R.string.declined_match_dialog_button), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
 
                     break;

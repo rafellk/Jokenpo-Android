@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 
+import br.com.rlmg.jokenpo.models.Match;
 import br.com.rlmg.jokenpo.utils.Utils;
 import br.com.rlmg.jokenpo.webservice.WebService;
 
@@ -31,20 +32,29 @@ public class PlayerActivity extends AppCompatActivity {
 
         // if this intent contains extras then the notification was tapped and we should present a dialog to accept or decline
         if (getIntent().getExtras() != null) {
-            String json = (String) getIntent().getExtras().get("json");
+            final String json = (String) getIntent().getExtras().get("json");
             final NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
             AlertDialog.Builder builder = Utils.buildSimpleDialog(getResources().getString(R.string.incomming_match_dialog_title), getResources().getString(R.string.incomming_match_dialog_message), this);
-            builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.incomming_match_dialog_positive_button), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     manager.cancel(Utils.sNOTIFICATION_ID);
                     dialog.dismiss();
                 }
             });
-            builder.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getResources().getString(R.string.incomming_match_dialog_negative_button), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    final Match match = Utils.getMatchFromJson(json);
+
+                    new AsyncTask<String, Void, HashMap>() {
+                        @Override
+                        protected HashMap doInBackground(String... params) {
+                            return WebService.declineChallenge(match.getId());
+                        }
+                    }.execute();
+
                     manager.cancel(Utils.sNOTIFICATION_ID);
                     dialog.dismiss();
                 }

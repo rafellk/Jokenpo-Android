@@ -24,6 +24,11 @@
     <string name="menu_logout_button_text">LOGOUT</string>
     <string name="incomming_match_dialog_title">Match Challenge</string>
     <string name="incomming_match_dialog_message">Do you want to proceed?</string>
+    <string name="incomming_match_dialog_positive_button">Accept</string>
+    <string name="incomming_match_dialog_negative_button">Decline</string>
+    <string name="declined_match_dialog_title">Declined</string>
+    <string name="declined_match_dialog_message">Oh No! The match was declined!! :(</string>
+    <string name="declined_match_dialog_button">OK</string>
 
     <!-- Room Activity -->
     <string name="room_progress_dialog_title">Challenge</string>

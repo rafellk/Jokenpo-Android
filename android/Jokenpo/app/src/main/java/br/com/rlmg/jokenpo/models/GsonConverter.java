@@ -10,5 +10,5 @@ public interface GsonConverter<T> {
      *
      * @return the converted java object
      */
-    public T convert();
+    T convert();
 }

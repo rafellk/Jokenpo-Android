@@ -7,6 +7,6 @@ import java.util.HashMap;
  */
 
 public interface WebServiceCallbackInterface {
-    public void successCallback(HashMap map);
-    public void errorCallback(HashMap map);
+    void successCallback(HashMap map);
+    void errorCallback(HashMap map);
 }

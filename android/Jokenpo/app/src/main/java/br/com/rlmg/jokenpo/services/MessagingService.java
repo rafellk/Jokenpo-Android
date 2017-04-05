@@ -46,7 +46,7 @@ public class MessagingService extends FirebaseMessagingService {
         Gson gson = new Gson();
         String json = gson.toJson(map);
 
-        final JsonObject jsonObject = (JsonObject) gson.fromJson(json, JsonObject.class);
+        final JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
         boolean shouldNotify = jsonObject.get("notification").getAsBoolean();
 
         if (shouldNotify) {
@@ -79,7 +79,7 @@ public class MessagingService extends FirebaseMessagingService {
         Gson gson = new Gson();
         String json = gson.toJson(map);
 
-        final JsonObject jsonObject = (JsonObject) gson.fromJson(json, JsonObject.class);
+        final JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
         String action = jsonObject.get("action").getAsString();
 
         if (action.equals(Utils.sCHALLENGE_PLAYER)) {

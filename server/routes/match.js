@@ -90,7 +90,7 @@ router.post('/challenge', function (req, res, next) {
                 return;
             }
 
-            Player.findById(match.player1, (error, player) => {
+            Player.findById(match.player2, (error, player) => {
                 if (error) {
                     res.status(500).json(error);
                     return;
@@ -137,7 +137,7 @@ router.put('/accept/:id', function (req, res, next) {
             
             sendMessage([ player.token ], {
                 action: ACTIONS.ACCEPT_MATCH_REQUEST,
-                data: match
+                data: JSON.stringify(match)
             }, (error) => {
                 if (error) {
                     res.status(500).json({
@@ -158,19 +158,42 @@ router.put('/accept/:id', function (req, res, next) {
 router.delete('/decline/:id', function (req, res, next) {
     let id = req.params.id;
 
-    Match.delete({ _id: id }, (error) => {
+    Match.findById(id, (error, match) => {
         if (error) {
             res.status(500).json(error);
             return;
         }
 
-        // // TODO: fire gcm service to the player 2 sending the match id
-        // sendMessage(match.player2, {
-        //     action: ACTIONS.CHALLENGE_PLAYER,
-        //     data: match
-        // });
+        Player.findById(match.player1, (error, player) => {
+            if (error) {
+                res.status(500).json(error);
+                return;
+            }
 
-        res.sendStatus(200);
+            sendMessage([ player.token ], {
+                action: ACTIONS.DECLINE_MATCH_REQUEST,
+                notification: "false",
+                data: JSON.stringify(match)
+            }, (error) => {
+                if (error) {
+                    res.status(500).json({
+                        error: error
+                    });
+                    return;
+                }
+
+                Match.remove({ _id: id }, (error) => {
+                    if (error) {
+                        res.status(500).json(error);
+                        return;
+                    }
+
+                    res.status(200).json({
+                        http_code: 200
+                    });
+                });
+            });
+        });
     });
 });
 

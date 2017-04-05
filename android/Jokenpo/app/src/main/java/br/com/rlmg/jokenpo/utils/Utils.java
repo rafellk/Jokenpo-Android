@@ -49,7 +49,7 @@ public class Utils {
 
     public static void createSimpleNotification(Context context, String title, String content, Class activityClass, String json) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder(context)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(content);
@@ -88,13 +88,13 @@ public class Utils {
 
     public static Player getPlayerFromJson(String json) {
         Gson gson = new Gson();
-        GsonPlayer gsonPlayer = (GsonPlayer) gson.fromJson(json, GsonPlayer.class);
+        GsonPlayer gsonPlayer = gson.fromJson(json, GsonPlayer.class);
         return gsonPlayer.convert();
     }
 
     public static Match getMatchFromJson(String json) {
         Gson gson = new Gson();
-        GsonMatch gsonMatch = (GsonMatch) gson.fromJson(json, GsonMatch.class);
+        GsonMatch gsonMatch = gson.fromJson(json, GsonMatch.class);
         return gsonMatch.convert();
     }
 }
