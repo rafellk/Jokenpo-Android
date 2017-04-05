@@ -8,9 +8,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.google.gson.Gson;
+
+import java.util.HashMap;
+
 import br.com.rlmg.jokenpo.LoginActivity;
 import br.com.rlmg.jokenpo.R;
+import br.com.rlmg.jokenpo.models.GsonMatch;
+import br.com.rlmg.jokenpo.models.GsonPlayer;
+import br.com.rlmg.jokenpo.models.Match;
 import br.com.rlmg.jokenpo.models.Player;
+import br.com.rlmg.jokenpo.webservice.WebService;
 
 /**
  * Created by rlmg on 4/2/17.
@@ -52,5 +60,30 @@ public class Utils {
 
     public static ProgressDialog createSimpleDialog(String title, String message, Context context) {
         return ProgressDialog.show(context, title, message, true);
+    }
+
+
+    public static Player getPlayerFromJson(HashMap json) {
+        Gson gson = new Gson();
+        GsonPlayer gsonPlayer = (GsonPlayer) json.get(WebService.sRESPONSE_DATA);
+        return gsonPlayer.convert();
+    }
+
+    public static Match getMatchFromJson(HashMap json) {
+        Gson gson = new Gson();
+        GsonMatch gsonMatch = (GsonMatch) json.get(WebService.sRESPONSE_DATA);
+        return gsonMatch.convert();
+    }
+
+    public static Player getPlayerFromJson(String json) {
+        Gson gson = new Gson();
+        GsonPlayer gsonPlayer = (GsonPlayer) gson.fromJson(json, GsonPlayer.class);
+        return gsonPlayer.convert();
+    }
+
+    public static Match getMatchFromJson(String json) {
+        Gson gson = new Gson();
+        GsonMatch gsonMatch = (GsonMatch) gson.fromJson(json, GsonMatch.class);
+        return gsonMatch.convert();
     }
 }
