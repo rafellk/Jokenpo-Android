@@ -97,4 +97,17 @@ public class Utils {
         GsonMatch gsonMatch = gson.fromJson(json, GsonMatch.class);
         return gsonMatch.convert();
     }
+
+    public static int getImageIdForChoice(String choice) {
+        switch (choice) {
+            case "ROCK":
+                return R.drawable.rock;
+            case "PAPER":
+                return R.drawable.paper;
+            case "SCISSORS":
+                return R.drawable.scissors;
+        }
+
+        return 0;
+    }
 }

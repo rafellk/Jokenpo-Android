@@ -40,79 +40,80 @@ public class MatchActivity extends AppCompatActivity {
 
         if (getIntent().getExtras() != null) {
             mMatch = Utils.getMatchFromJson(getIntent().getStringExtra("json"));
+            mCurrentChoiceImageView = (SelectableRoundedImageView) findViewById(R.id.match_player_choice);
+
+            SelectableRoundedImageView rock = (SelectableRoundedImageView) findViewById(R.id.match_player_choice_rock);
+            SelectableRoundedImageView paper = (SelectableRoundedImageView) findViewById(R.id.match_player_choice_paper);
+            SelectableRoundedImageView scissors = (SelectableRoundedImageView) findViewById(R.id.match_player_choice_scissors);
+            Button submit = (Button) findViewById(R.id.match_submit_button);
+
+            mCurrentChoice = "ROCK";
+            mCurrentChoiceImageView.setImageResource(Utils.getImageIdForChoice(mCurrentChoice));
+
+            rock.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCurrentChoice = "ROCK";
+                    mCurrentChoiceImageView.setImageResource(Utils.getImageIdForChoice(mCurrentChoice));
+                }
+            });
+
+            paper.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCurrentChoice = "PAPER";
+                    mCurrentChoiceImageView.setImageResource(Utils.getImageIdForChoice(mCurrentChoice));
+                }
+            });
+
+            scissors.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCurrentChoice = "SCISSORS";
+                    mCurrentChoiceImageView.setImageResource(Utils.getImageIdForChoice(mCurrentChoice));
+                }
+            });
+
+            submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = Utils.buildSimpleDialog("Move Confirmation", "If you submit this move you will not be able to roll back. Are you sure you want to make this move?", MatchActivity.this);
+
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            final DialogInterface dialogInterface = dialog;
+
+                            new AsyncTask<String, Void, HashMap>() {
+                                @Override
+                                protected void onPreExecute() {
+                                    dialogInterface.dismiss();
+                                    mProgressDialog = Utils.createSimpleProgressDialog("Match", "Waiting for player to make his move", MatchActivity.this);
+                                    mProgressDialog.show();
+                                }
+
+                                @Override
+                                protected HashMap doInBackground(String... params) {
+                                    return WebService.move(mMatch.getId(), Utils.sLoggedPlayer.getId(), mCurrentChoice);
+                                }
+                            }.execute();
+                        }
+                    });
+
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            });
+
+            registerBroadcast();
         }
-
-        mCurrentChoiceImageView = (SelectableRoundedImageView) findViewById(R.id.match_player_choice);
-        SelectableRoundedImageView rock = (SelectableRoundedImageView) findViewById(R.id.match_player_choice_rock);
-        SelectableRoundedImageView paper = (SelectableRoundedImageView) findViewById(R.id.match_player_choice_paper);
-        SelectableRoundedImageView scissors = (SelectableRoundedImageView) findViewById(R.id.match_player_choice_scissors);
-        Button submit = (Button) findViewById(R.id.match_submit_button);
-
-        mCurrentChoice = "ROCK";
-
-        rock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCurrentChoice = "ROCK";
-                updateCurrentChoice();
-            }
-        });
-
-        paper.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCurrentChoice = "PAPER";
-                updateCurrentChoice();
-            }
-        });
-
-        scissors.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCurrentChoice = "SCISSORS";
-                updateCurrentChoice();
-            }
-        });
-
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = Utils.buildSimpleDialog("Move Confirmation", "If you submit this move you will not be able to roll back. Are you sure you want to make this move?", MatchActivity.this);
-
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        final DialogInterface dialogInterface = dialog;
-
-                        new AsyncTask<String, Void, HashMap>() {
-                            @Override
-                            protected void onPreExecute() {
-                                dialogInterface.dismiss();
-                                mProgressDialog = Utils.createSimpleProgressDialog("Match", "Waiting for player to make his move", MatchActivity.this);
-                                mProgressDialog.show();
-                            }
-
-                            @Override
-                            protected HashMap doInBackground(String... params) {
-                                return WebService.move(mMatch.getId(), Utils.sLoggedPlayer.getId(), mCurrentChoice);
-                            }
-                        }.execute();
-                    }
-                });
-
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
-
-        registerBroadcast();
     }
 
     @Override
@@ -195,23 +196,6 @@ public class MatchActivity extends AppCompatActivity {
 
                     break;
             }
-        }
-    }
-
-    /**
-     * Method that updates the current player choice big image view
-     */
-    private void updateCurrentChoice() {
-        switch (mCurrentChoice) {
-            case "ROCK":
-                mCurrentChoiceImageView.setImageResource(R.drawable.rock);
-                break;
-            case "PAPER":
-                mCurrentChoiceImageView.setImageResource(R.drawable.paper);
-                break;
-            case "SCISSORS":
-                mCurrentChoiceImageView.setImageResource(R.drawable.scissors);
-                break;
         }
     }
 }

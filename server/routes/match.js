@@ -282,7 +282,6 @@ router.put('/move/:matchId/:playerId/:move', function (req, res, next) {
 
                     players.forEach(function(player) {
                         tokens.push(player.token);
-                        console.log(player.token);
                     }, this);
                     
                     sendMessage(tokens, {

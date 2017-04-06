@@ -43,6 +43,13 @@
             android:text="@string/menu_view_match_history_button_text"/>
 
         <Button
+            android:id="@+id/player_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="SETTINGS"/>
+
+        <Button
             android:id="@+id/btn_logout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

@@ -61,7 +61,7 @@
 
             <com.joooonho.SelectableRoundedImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/match_player_choice_paper"
+                android:id="@+id/match_player_choice_rock"
                 android:src="@drawable/rock"
                 android:scaleType="centerCrop"
                 android:layout_height="70dip"
@@ -78,7 +78,7 @@
 
             <com.joooonho.SelectableRoundedImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/match_player_choice_rock"
+                android:id="@+id/match_player_choice_paper"
                 android:src="@drawable/paper"
                 android:scaleType="centerCrop"
                 android:layout_height="70dip"
