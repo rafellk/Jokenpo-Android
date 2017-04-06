@@ -43,6 +43,8 @@
 
         <activity android:name=".RoomActivity">
         </activity>
+        <activity android:name=".MatchActivity">
+        </activity>
     </application>
 
 </manifest>

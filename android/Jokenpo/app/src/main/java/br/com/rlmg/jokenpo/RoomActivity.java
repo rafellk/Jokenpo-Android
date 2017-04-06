@@ -7,20 +7,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -128,7 +124,8 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
                     if (mMatch != null && mMatch.getId() == match.getId()) {
                         mProgressDialog.dismiss();
 
-                        Intent intent = new Intent(RoomActivity.this, PlayerActivity.class);
+                        Intent intent = new Intent(RoomActivity.this, MatchActivity.class);
+                        intent.putExtra("json", jsonObject.get(WebService.sRESPONSE_DATA).getAsString());
                         startActivity(intent);
                     }
 
