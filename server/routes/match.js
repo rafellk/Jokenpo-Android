@@ -137,6 +137,7 @@ router.put('/accept/:id', function (req, res, next) {
             
             sendMessage([ player.token ], {
                 action: ACTIONS.ACCEPT_MATCH_REQUEST,
+                notification: "false",
                 data: JSON.stringify(match)
             }, (error) => {
                 if (error) {
@@ -207,6 +208,7 @@ router.put('/move/:matchId/:playerId/:move', function (req, res, next) {
 
     Match.findById(matchId, (error, match) => {
         if (error) {
+            console.log(error);
             res.status(500).json(error);
             return;
         }
@@ -263,28 +265,33 @@ router.put('/move/:matchId/:playerId/:move', function (req, res, next) {
 
         match.save((error, match) => {
             if (error) {
+                console.log(error);
                 res.status(500).json(error);
                 return;
             }
 
             if (!match.playing) {
-                Player.find($or [ { _id: match.player1 }, { _id: match.player2 }], (error, players) => {
+                Player.find({ $or: [ { _id: match.player1 }, { _id: match.player2 } ] }, (error, players) => {
                     if (error) {
+                        console.log(error);
                         res.status(500).json(error);
                         return;
                     }
 
                     let tokens = [];
 
-                    for (let player in players) {
+                    players.forEach(function(player) {
                         tokens.push(player.token);
-                    }
+                        console.log(player.token);
+                    }, this);
                     
                     sendMessage(tokens, {
                         action: ACTIONS.MATCH_END,
-                        data: match
+                        notification: "false",
+                        data: JSON.stringify(match)
                     }, (error) => {
                         if (error) {
+                            console.log(error);
                             res.status(500).json({
                                 error: error
                             });
@@ -328,6 +335,7 @@ router.put('/ragequit/:matchId/:playerId', function (req, res, next) {
                 
                 sendMessage([ player.token ], {
                     action: ACTIONS.MATCH_END,
+                    notification: "false",
                     data: match
                 }, (error) => {
                     if (error) {

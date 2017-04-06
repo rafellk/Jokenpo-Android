@@ -65,23 +65,17 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     protected void onPause() {
         super.onPause();
-        if (mReceiver != null) {
-            unregisterReceiver(mReceiver);
-            mReceiver = null;
-        }
+        unRegisterBroadcast();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        if (mReceiver != null) {
-            unregisterReceiver(mReceiver);
-            mReceiver = null;
-        }
+        unRegisterBroadcast();
 
         // needs this because this holds reference
-        if (mProgressDialog != null) {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
             mProgressDialog = null;
         }
@@ -104,6 +98,16 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     /**
+     * Method that unRegisters the broadcast if it is registered
+     */
+    private void unRegisterBroadcast() {
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+            mReceiver = null;
+        }
+    }
+
+    /**
      * Method that handles the message received broadcast
      *
      * @param json - String that represents the message content in json
@@ -121,7 +125,7 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
                     match = (gson.fromJson(jsonObject.get(WebService.sRESPONSE_DATA).getAsString(), GsonMatch.class)).convert();
 
                     // if this is the match that I am waiting for so it should be good
-                    if (mMatch != null && mMatch.getId() == match.getId()) {
+                    if (mMatch != null && mMatch.getId().equals(match.getId())) {
                         mProgressDialog.dismiss();
 
                         Intent intent = new Intent(RoomActivity.this, MatchActivity.class);
@@ -229,8 +233,7 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             @Override
             protected void onPostExecute(HashMap hashMap) {
-                GsonMatch gsonMatch = (GsonMatch) hashMap.get(WebService.sRESPONSE_DATA);
-                mMatch = gsonMatch.convert();
+                mMatch = Utils.getMatchFromJson(hashMap);
             }
         }.execute(playerId);
     }
