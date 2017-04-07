@@ -50,9 +50,11 @@ router.get('/room/:id', function (req, res, next) {
 
     Player.find({ logged: true }).where('_id').ne(id).exec((error, players) => {
         if (error) {
+            console.log(error);
             res.status(500).json({
                 error: error
             });
+            console.log(error);
             return;
         }
 
@@ -79,9 +81,9 @@ router.get('/room/:id', function (req, res, next) {
  */
 router.post('/signin', function (req, res, next) {
     req.body.logged = true;
-
     Player.findOneAndUpdate({ name: req.body.name }, req.body, { upsert: true, new: true }, (error, player) => {
         if (error) {
+            console.log(error);
             res.status(500).json(error);
             return;
         }

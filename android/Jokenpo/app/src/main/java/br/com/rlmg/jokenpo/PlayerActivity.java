@@ -66,7 +66,8 @@ public class PlayerActivity extends BaseActivity {
     }
 
     public void viewHistory(View v) {
-
+        //Intent intent = new Intent(PlayerActivity.this, HistoryMatchActivity.class);
+        //startActivity(intent);
     }
 
     /**

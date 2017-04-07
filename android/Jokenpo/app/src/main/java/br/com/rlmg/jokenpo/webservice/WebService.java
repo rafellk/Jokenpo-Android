@@ -30,7 +30,7 @@ import br.com.rlmg.jokenpo.utils.Utils;
 
 public class WebService {
 
-    private static final String sSERVER_URL = "http://10.0.2.2:3003";
+    private static final String sSERVER_URL = "http://192.168.1.3:3003";
 
     /**
      * Constants that can be used as keys on the request results hashmap
@@ -146,7 +146,7 @@ public class WebService {
     }
 
     public static HashMap getMatchesPlayerHistory(String playerId) {
-        return performRequest("/match/player/history/" + playerId, "GET", GsonMatch.class);
+        return performRequest("/match/player/history/" + playerId, "GET", GsonMatch[].class);
     }
 
     public static HashMap challengePlayer(String player1Id, String player2Id) {
