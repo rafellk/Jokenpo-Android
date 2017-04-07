@@ -18,7 +18,7 @@ import br.com.rlmg.jokenpo.models.Match;
 import br.com.rlmg.jokenpo.utils.Utils;
 import br.com.rlmg.jokenpo.webservice.WebService;
 
-public class PlayerActivity extends AppCompatActivity {
+public class PlayerActivity extends BaseActivity {
 
     private TextView mTextView_User;
     private Button mButtonPlay;
@@ -34,45 +34,7 @@ public class PlayerActivity extends AppCompatActivity {
         if (getIntent().getExtras() != null) {
             final String json = (String) getIntent().getExtras().get("json");
             final NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            final Match match = Utils.getMatchFromJson(json);
-
-            AlertDialog.Builder builder = Utils.buildSimpleDialog(getResources().getString(R.string.incomming_match_dialog_title), getResources().getString(R.string.incomming_match_dialog_message), this);
-            builder.setPositiveButton(getResources().getString(R.string.incomming_match_dialog_positive_button), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    new AsyncTask<String, Void, HashMap>() {
-                        @Override
-                        protected HashMap doInBackground(String... params) {
-                            String id = params[0];
-                            return WebService.acceptChallenge(id);
-                        }
-                    }.execute(match.getId());
-
-                    manager.cancel(Utils.sNOTIFICATION_ID);
-                    dialog.dismiss();
-
-                    Intent intent = new Intent(PlayerActivity.this, MatchActivity.class);
-                    intent.putExtra("json", json);
-                    startActivity(intent);
-                }
-            });
-            builder.setNegativeButton(getResources().getString(R.string.incomming_match_dialog_negative_button), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    new AsyncTask<String, Void, HashMap>() {
-                        @Override
-                        protected HashMap doInBackground(String... params) {
-                            return WebService.declineChallenge(match.getId());
-                        }
-                    }.execute();
-
-                    manager.cancel(Utils.sNOTIFICATION_ID);
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            createChallengeDialog(json);
         }
 
         TextView textView = (TextView) findViewById(R.id.textView_User);

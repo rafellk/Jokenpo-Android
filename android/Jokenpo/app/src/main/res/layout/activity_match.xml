@@ -19,7 +19,6 @@
     <com.joooonho.SelectableRoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/match_player_choice"
-        android:src="@drawable/paper"
         android:scaleType="centerCrop"
         android:layout_gravity="center"
         android:layout_height="400dip"

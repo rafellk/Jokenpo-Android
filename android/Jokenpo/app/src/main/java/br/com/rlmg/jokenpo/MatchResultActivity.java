@@ -13,9 +13,9 @@ import com.joooonho.SelectableRoundedImageView;
 import br.com.rlmg.jokenpo.models.Match;
 import br.com.rlmg.jokenpo.utils.Utils;
 
-public class MatchResultActivity extends AppCompatActivity {
+public class MatchResultActivity extends MatchMakingProcessBaseActivity {
 
-    private Match mMatch = null;
+    private Match mPlayingMatch = null;
     private SelectableRoundedImageView mLoggedPlayer;
     private SelectableRoundedImageView mPlayer2;
     private TextView mLoggedPlayerTextView;
@@ -27,7 +27,7 @@ public class MatchResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_match_result);
 
         if (getIntent().getExtras() != null) {
-            mMatch = Utils.getMatchFromJson(getIntent().getStringExtra("json"));
+            mPlayingMatch = Utils.getMatchFromJson(getIntent().getStringExtra("json"));
 
             mLoggedPlayer = (SelectableRoundedImageView) findViewById(R.id.match_result_logged_player);
             mPlayer2 = (SelectableRoundedImageView) findViewById(R.id.match_result_player2);
@@ -41,9 +41,8 @@ public class MatchResultActivity extends AppCompatActivity {
             playAgain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(MatchResultActivity.this, RoomActivity.class);
-                    startActivity(intent);
-                    finish();
+                    String player2 = mPlayingMatch.getPlayer1().equals(Utils.sLoggedPlayer.getId()) ? mPlayingMatch.getPlayer2() : mPlayingMatch.getPlayer1();
+                    challengePlayer(player2);
                 }
             });
 
@@ -59,16 +58,16 @@ public class MatchResultActivity extends AppCompatActivity {
                 }
             });
 
-            if (Utils.sLoggedPlayer.getId().equals(mMatch.getPlayer1())) {
-                mLoggedPlayer.setImageResource(Utils.getImageIdForChoice(mMatch.getPlayer1Move()));
-                mPlayer2.setImageResource(Utils.getImageIdForChoice(mMatch.getPlayer2Move()));
+            if (Utils.sLoggedPlayer.getId().equals(mPlayingMatch.getPlayer1())) {
+                mLoggedPlayer.setImageResource(Utils.getImageIdForChoice(mPlayingMatch.getPlayer1Move()));
+                mPlayer2.setImageResource(Utils.getImageIdForChoice(mPlayingMatch.getPlayer2Move()));
             } else {
-                mPlayer2.setImageResource(Utils.getImageIdForChoice(mMatch.getPlayer1Move()));
-                mLoggedPlayer.setImageResource(Utils.getImageIdForChoice(mMatch.getPlayer2Move()));
+                mPlayer2.setImageResource(Utils.getImageIdForChoice(mPlayingMatch.getPlayer1Move()));
+                mLoggedPlayer.setImageResource(Utils.getImageIdForChoice(mPlayingMatch.getPlayer2Move()));
             }
 
-            if (mMatch.getWinner() != null) {
-                if (mMatch.getWinner().equals(Utils.sLoggedPlayer.getId())) {
+            if (mPlayingMatch.getWinner() != null) {
+                if (mPlayingMatch.getWinner().equals(Utils.sLoggedPlayer.getId())) {
                     mLoggedPlayerTextView.setText("Winner");
                     mPlayer2TextView.setText("Looser");
 

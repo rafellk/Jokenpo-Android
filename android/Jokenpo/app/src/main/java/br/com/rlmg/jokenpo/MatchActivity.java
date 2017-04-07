@@ -25,13 +25,12 @@ import br.com.rlmg.jokenpo.models.Match;
 import br.com.rlmg.jokenpo.utils.Utils;
 import br.com.rlmg.jokenpo.webservice.WebService;
 
-public class MatchActivity extends AppCompatActivity {
+public class MatchActivity extends BaseActivity {
 
     private SelectableRoundedImageView mCurrentChoiceImageView;
     private String mCurrentChoice = null;
     private ProgressDialog mProgressDialog = null;
     private Match mMatch = null;
-    private BroadcastReceiver mReceiver = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,27 +110,12 @@ public class MatchActivity extends AppCompatActivity {
                     dialog.show();
                 }
             });
-
-            registerBroadcast();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerBroadcast();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unRegisterBroadcast();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unRegisterBroadcast();
 
         // needs this because this holds reference
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
@@ -140,38 +124,10 @@ public class MatchActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Method that register the message received broadcast
-     */
-    private void registerBroadcast() {
-        if (mReceiver == null) {
-            IntentFilter intentFilter = new IntentFilter(Utils.sMESSAGE_RECEIVED);
-            mReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    handleBroadcast(intent.getExtras().getString("map"));
-                }
-            };
-            registerReceiver(mReceiver, intentFilter);
-        }
-    }
+    @Override
+    protected void handleBroadcast(String json) {
+        super.handleBroadcast(json);
 
-    /**
-     * Method that unRegisters the broadcast if it is registered
-     */
-    private void unRegisterBroadcast() {
-        if (mReceiver != null) {
-            unregisterReceiver(mReceiver);
-            mReceiver = null;
-        }
-    }
-
-    /**
-     * Method that handles the message received broadcast
-     *
-     * @param json - String that represents the message content in json
-     */
-    private void handleBroadcast(String json) {
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
 

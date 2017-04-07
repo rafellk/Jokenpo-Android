@@ -26,13 +26,23 @@ import br.com.rlmg.jokenpo.webservice.WebService;
  */
 
 public class Utils {
+
     public static Player sLoggedPlayer = null;
-    public static final int NOTIFICATION_ID = 1000;
+
+    /**
+     * Private Broadcast receiver identifier
+     */
+    public static final String sMESSAGE_RECEIVED = "br.com.rlmg.jokenpo.MESSAGE_RECEIVED";
+
+    /**
+     * Variables responsible for application state
+     */
+    public static boolean sPaused = false;
+
 
     /**
      * Message received notification constants
      */
-    public static final String sMESSAGE_RECEIVED = "br.com.rlmg.jokenpo.MESSAGE_RECEIVED";
     public static final String sCHALLENGE_PLAYER = "CHALLENGE_PLAYER";
     public static final String sDECLINE_MATCH_REQUEST = "DECLINE_MATCH_REQUEST";
     public static final String sACCEPT_MATCH_REQUEST = "ACCEPT_MATCH_REQUEST";

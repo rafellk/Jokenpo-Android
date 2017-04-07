@@ -49,7 +49,7 @@ public class MessagingService extends FirebaseMessagingService {
         final JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
         boolean shouldNotify = jsonObject.get("notification").getAsBoolean();
 
-        if (shouldNotify) {
+        if (shouldNotify && Utils.sPaused) {
             fireNotification(map);
         } else {
             fireBroadcast(map);
