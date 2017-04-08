@@ -85,7 +85,7 @@ public class MessagingService extends FirebaseMessagingService {
         if (action.equals(Utils.sCHALLENGE_PLAYER)) {
             Match match = Utils.getMatchFromJson(jsonObject.get(WebService.sRESPONSE_DATA).getAsString());
 
-            new AsyncTask<String, Void, HashMap>() {
+                new AsyncTask<String, Void, HashMap>() {
                 @Override
                 protected HashMap doInBackground(String... params) {
                     String id = params[0];

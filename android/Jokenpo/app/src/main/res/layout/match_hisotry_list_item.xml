@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/movePlayer1Image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp" />
+
+        <TextView
+            android:id="@+id/player1NameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="@null"
+            android:layout_margin="5dp"
+            android:textAlignment="viewStart"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="vs"
+            android:layout_margin="5dp"
+            android:textAlignment="viewStart"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/player2NameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="@null"
+            android:layout_margin="5dp"
+            android:textAlignment="viewStart"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <ImageView
+            android:id="@+id/movePlayer2Image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:gravity="center_vertical"
+            android:text="@null"
+            android:layout_margin="5dp"
+            android:textAlignment="viewStart"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/resultTextView"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="right"
+            android:text="@null"
+            android:layout_margin="5dp"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+    </LinearLayout>
+
+</LinearLayout>

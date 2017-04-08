@@ -47,6 +47,9 @@
         </activity>
         <activity android:name=".MatchResultActivity">
         </activity>
+        <activity android:name=".MatchHistoryActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
