@@ -24,6 +24,7 @@ public class PlayerActivity extends BaseActivity {
     private Button mButtonPlay;
     private Button mButtonViewHistory;
     private Button mButtonLogout;
+    private Button mButtonSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class PlayerActivity extends BaseActivity {
         mButtonPlay = (Button) findViewById(R.id.btn_play);
         mButtonViewHistory = (Button) findViewById(R.id.btn_viewHistory);
         mButtonLogout = (Button) findViewById(R.id.btn_logout);
+        mButtonSettings = (Button) findViewById(R.id.btn_settings);
 
         mButtonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +60,11 @@ public class PlayerActivity extends BaseActivity {
             @Override
             public void onClick(View v) {Logout(v);}
         });
+
+        mButtonSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {settings(v);}
+        });
     }
 
     public void play(View v) {
@@ -67,6 +74,11 @@ public class PlayerActivity extends BaseActivity {
 
     public void viewHistory(View v) {
         Intent intent = new Intent(PlayerActivity.this, MatchHistoryActivity.class);
+        startActivity(intent);
+    }
+
+    public void settings(View v) {
+        Intent intent = new Intent(PlayerActivity.this, SettingActivity.class);
         startActivity(intent);
     }
 

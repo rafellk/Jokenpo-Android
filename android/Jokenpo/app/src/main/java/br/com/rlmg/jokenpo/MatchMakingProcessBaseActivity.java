@@ -107,7 +107,8 @@ public class MatchMakingProcessBaseActivity extends BaseActivity {
         new AsyncTask<String, Void, HashMap>() {
             @Override
             protected void onPreExecute() {
-                mProgressDialog = Utils.createSimpleProgressDialog(getResources().getString(R.string.room_progress_dialog_title), getResources().getString(R.string.room_progress_dialog_message), MatchMakingProcessBaseActivity.this);
+                mProgressDialog = Utils.createSimpleProgressDialog(getResources().getString(R.string.room_progress_dialog_title),
+                        getResources().getString(R.string.room_progress_dialog_message), MatchMakingProcessBaseActivity.this);
             }
 
             @Override

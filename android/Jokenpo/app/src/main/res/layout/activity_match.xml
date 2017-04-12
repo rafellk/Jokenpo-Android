@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
-        android:text="Your current choice"
+        android:text="@string/match_current_choice"
         android:textAppearance="?android:attr/textAppearanceListItem"
         android:textAlignment="center"/>
 
@@ -47,7 +47,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Choose your move"
+            android:text="@string/match_move_choice"
             android:textAppearance="?android:attr/textAppearanceListItem"
             android:textAlignment="center"/>
 
@@ -120,6 +120,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="30dip"
-        android:text="Submit Move"/>
+        android:text="@string/match_submit_move"/>
 
 </LinearLayout>

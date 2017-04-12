@@ -21,6 +21,7 @@
     <!-- Player Hub Activity -->
     <string name="menu_play_button_text">PLAY</string>
     <string name="menu_view_match_history_button_text">VIEW MATCH HISTORY</string>
+    <string name="menu_settings_button_text">SETTINGS</string>
     <string name="menu_logout_button_text">LOGOUT</string>
     <string name="incomming_match_dialog_title">Match Challenge</string>
     <string name="incomming_match_dialog_message">Do you want to proceed?</string>
@@ -33,5 +34,21 @@
     <!-- Room Activity -->
     <string name="room_progress_dialog_title">Challenge</string>
     <string name="room_progress_dialog_message">Waiting for Player 2 to accept the match</string>
+
+    <!-- Match Activity-->
+    <string name="match_current_choice">Your current choice</string>
+    <string name="match_move_choice">Choose your move</string>
+    <string name="match_move_confirmation">Move Confirmation</string>
+    <string name="match_move_message_confirmation">If you submit this move you will not be able to roll back. Are you sure you want to make this move?</string>
+    <string name="match_waiting_title">Match</string>
+    <string name="match_waiting_message">Waiting for player to make his move</string>
+    <string name="match_cancel">Cancel</string>
+    <string name="match_submit_move">Submit Move</string>
+
+    <!-- Match Result Activity-->
+    <string name="match_result_play_again">Play Again</string>
+    <string name="match_result_exit">Exit</string>
+    <string name="match_result_loser">LOSER</string>
+    <string name="match_result_winner">WINNER</string>
 
 </resources>

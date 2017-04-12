@@ -23,7 +23,7 @@
                 android:id="@+id/match_result_logged_player_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="WINNER"
+                android:text="@string/match_result_winner"
                 android:textAppearance="?android:attr/textAppearanceListItem"
                 android:textAlignment="center"/>
 
@@ -53,7 +53,7 @@
                 android:id="@+id/match_result_player2_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="LOOSER"
+                android:text="@string/match_result_loser"
                 android:textAppearance="?android:attr/textAppearanceListItem"
                 android:textAlignment="center"/>
 
@@ -87,7 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Play Again"
+            android:text="@string/match_result_play_again"
             ></Button>
 
         <Button
@@ -95,7 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Exit"
+            android:text="@string/match_result_exit"
             ></Button>
 
     </LinearLayout>

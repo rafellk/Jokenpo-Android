@@ -76,7 +76,8 @@ public class MatchActivity extends BaseActivity {
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = Utils.buildSimpleDialog("Move Confirmation", "If you submit this move you will not be able to roll back. Are you sure you want to make this move?", MatchActivity.this);
+                    AlertDialog.Builder builder = Utils.buildSimpleDialog(getResources().getString(R.string.match_move_confirmation),
+                            getResources().getString(R.string.match_move_message_confirmation), MatchActivity.this);
 
                     builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
@@ -87,7 +88,8 @@ public class MatchActivity extends BaseActivity {
                                 @Override
                                 protected void onPreExecute() {
                                     dialogInterface.dismiss();
-                                    mProgressDialog = Utils.createSimpleProgressDialog("Match", "Waiting for player to make his move", MatchActivity.this);
+                                    mProgressDialog = Utils.createSimpleProgressDialog(getResources().getString(R.string.match_waiting_title),
+                                            getResources().getString(R.string.match_waiting_message), MatchActivity.this);
                                     mProgressDialog.show();
                                 }
 
@@ -99,7 +101,7 @@ public class MatchActivity extends BaseActivity {
                         }
                     });
 
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(getResources().getString(R.string.match_cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();

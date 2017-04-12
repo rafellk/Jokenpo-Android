@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".SplashActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            android:screenOrientation="portrait">
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -23,12 +24,12 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".PlayerActivity"
-            android:label="@string/title_activity_player"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
 
         <service android:name=".services.MessagingService">
             <intent-filter>
@@ -41,14 +42,26 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".RoomActivity">
+        <activity android:name=".RoomActivity"
+                  android:theme="@style/AppTheme.NoActionBar"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".MatchActivity">
+        <activity android:name=".MatchActivity"
+                  android:theme="@style/AppTheme.NoActionBar"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".MatchResultActivity">
+        <activity android:name=".MatchResultActivity"
+                  android:theme="@style/AppTheme.NoActionBar"
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name=".MatchHistoryActivity"
-                  android:theme="@style/AppTheme.NoActionBar">
+                  android:theme="@style/AppTheme.NoActionBar"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".SettingActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

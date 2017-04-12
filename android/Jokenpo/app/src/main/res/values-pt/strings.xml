@@ -1,0 +1,53 @@
+<resources>
+    <!-- General -->
+    <string name="app_name">Jokenpo</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_player">Jokenpo</string>
+    <string name="preference_file_key">br.com.rlmg.jokenpo.PREFERENCE_FILE_KEY</string>
+
+    <!-- Notifications -->
+    <string name="challenge_notification_title">Novo desafio</string>
+    <string name="challenge_notification_message">%1$s está desafiando você!!</string>
+
+    <!-- Shared Preferences -->
+
+    <!-- Login Activity -->
+    <string name="valid_user_name_message">Entre com um usuário válido</string>
+    <string name="user_name_hint">Usuário</string>
+    <string name="login_button">Entrar</string>
+    <string name="authentication_progress_dialog_title">Espere</string>
+    <string name="authentication_progress_dialog_message">Autenticando...</string>
+
+    <!-- Player Hub Activity -->
+    <string name="menu_play_button_text">JOGAR</string>
+    <string name="menu_view_match_history_button_text">VER HISTÓRICO DE PARTIDAS</string>
+    <string name="menu_settings_button_text">CONFIGURAÇÕES</string>
+    <string name="menu_logout_button_text">SAIR</string>
+    <string name="incomming_match_dialog_title">Desafio</string>
+    <string name="incomming_match_dialog_message">Você deseja aceitar o desafio?</string>
+    <string name="incomming_match_dialog_positive_button">Aceitar</string>
+    <string name="incomming_match_dialog_negative_button">Recusar</string>
+    <string name="declined_match_dialog_title">Recusado</string>
+    <string name="declined_match_dialog_message">Eita! O seu jogo foi recusado!! :(</string>
+    <string name="declined_match_dialog_button">OK</string>
+
+    <!-- Room Activity -->
+    <string name="room_progress_dialog_title">Desafio</string>
+    <string name="room_progress_dialog_message">Esperando o jogador 2 aceitar a partida</string>
+
+    <!-- Match Activity-->
+    <string name="match_current_choice">Sua escolha atual</string>
+    <string name="match_move_choice">Escolha seu movimento</string>
+    <string name="match_move_confirmation">Confirmação de movimento</string>
+    <string name="match_move_message_confirmation">Se você enviar esse movimento, você não poderá voltar atrás. Você tem certeza que quer fazer esse movimento?</string>
+    <string name="match_waiting_title">Partida</string>
+    <string name="match_waiting_message">Esparando pelo movimento do adversário</string>
+    <string name="match_cancel">Cancelar</string>
+    <string name="match_submit_move">Enviar movimento</string>
+
+    <!-- Match Result Activity-->
+    <string name="match_result_play_again">Jogar novamente</string>
+    <string name="match_result_exit">Sair</string>
+    <string name="match_result_loser">PERDEDOR</string>
+    <string name="match_result_winner">VENCEDOR</string>
+</resources>
