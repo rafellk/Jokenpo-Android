@@ -11,6 +11,10 @@ import android.support.v4.app.NotificationCompat;
 
 import com.google.gson.Gson;
 
+import org.joda.time.DateTime;
+import org.joda.time.Seconds;
+
+import java.util.Date;
 import java.util.HashMap;
 
 import br.com.rlmg.jokenpo.LoginActivity;
@@ -120,5 +124,26 @@ public class Utils {
         }
 
         return 0;
+    }
+
+    public static String getTimePassed(Date date) {
+        DateTime dateTime = new DateTime(date);
+        Seconds seconds = Seconds.secondsBetween(DateTime.now(), dateTime);
+        int secondsInt = seconds.getSeconds();
+
+        if (secondsInt / 60 == 0) {
+            return seconds + " seconds ago";
+        } else if (secondsInt / 3600 == 0) {
+            int minutes = secondsInt / 60;
+            return minutes + " minutes ago";
+        } else if (secondsInt / (3600 * 24) == 0) {
+            int hours = secondsInt / 3600;
+            return hours + " hours ago";
+        } else if (secondsInt / (3600 * 24 * 5) == 0) {
+            int days = secondsInt / (3600 * 24);
+            return days + " days ago";
+        }
+
+        return (String) android.text.format.DateFormat.format("yyyy/MM/dd", date);
     }
 }

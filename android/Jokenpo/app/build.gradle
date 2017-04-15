@@ -32,6 +32,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:10.2.1'
     compile 'com.joooonho:selectableroundedimageview:1.0.1'
     compile 'com.android.support:preference-v7:25.3.0'
+    compile 'net.danlew:android.joda:2.9.9'
     testCompile 'junit:junit:4.12'
 }
 

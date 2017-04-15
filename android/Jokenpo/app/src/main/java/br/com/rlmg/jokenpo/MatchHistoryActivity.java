@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.joda.time.DateTime;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -164,8 +166,10 @@ public class MatchHistoryActivity extends BaseActivity implements SwipeRefreshLa
                     holderFinal.player2Name.setText(player2.getName().trim());
                     holderFinal.movePlayer1.setImageResource(Utils.getImageIdForChoice(movePlayer1));
                     holderFinal.movePlayer2.setImageResource(Utils.getImageIdForChoice(movePlayer2));
-                    holderFinal.date.setText(android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss a", match.getCreatedAt()));
+                    holderFinal.date.setText(Utils.getTimePassed(match.getCreatedAt()));
                     holderFinal.result.setText(decideResult(Utils.sLoggedPlayer.getId(), match.getWinner()));
+
+                    Utils.getTimePassed(match.getCreatedAt());
                 }
 
                 private String decideResult(String playerId, String matchWinner){
