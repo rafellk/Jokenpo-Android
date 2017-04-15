@@ -48,6 +48,7 @@
     <string name="match_exit_message">Você tem certeza que quer desistir?</string>
     <string name="match_load_give_up">Desistindo do jogo...</string>
     <string name="match_give_up">Seu oponente desistiu do jogo!</string>
+    <string name="match_alert_gave_up">Seu adversário desistiu do jogo!</string>
 
     <!-- Match Result Activity-->
     <string name="match_result_play_again">Jogar novamente</string>

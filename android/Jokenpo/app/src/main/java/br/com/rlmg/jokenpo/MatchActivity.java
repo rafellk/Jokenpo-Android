@@ -227,11 +227,8 @@ public class MatchActivity extends BaseActivity {
                         Intent intent = new Intent(MatchActivity.this, MatchResultActivity.class);
                         intent.putExtra("json", jsonObject.get(WebService.sRESPONSE_DATA).getAsString());
 
-                        startActivity(intent);
-                        finish();
-
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage(getResources().getString(R.string.match_load_give_up))
+                        builder.setMessage(getResources().getString(R.string.match_alert_gave_up))
                                 .setCancelable(false)
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
