@@ -43,7 +43,6 @@
         </service>
 
         <activity android:name=".RoomActivity"
-                  android:theme="@style/AppTheme.NoActionBar"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".MatchActivity"
@@ -55,12 +54,10 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".MatchHistoryActivity"
-                  android:theme="@style/AppTheme.NoActionBar"
                   android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".SettingActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
         </activity>
     </application>

@@ -39,6 +39,8 @@ public class MatchHistoryActivity extends BaseActivity implements SwipeRefreshLa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_history);
 
+        setTitle("History");
+
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshMatchLayout);
         mRefreshLayout.setOnRefreshListener(this);
         mListView = (ListView) findViewById(R.id.matchHistoryListView);

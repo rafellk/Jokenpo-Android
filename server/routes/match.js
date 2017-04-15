@@ -319,6 +319,7 @@ router.put('/ragequit/:matchId/:playerId', function (req, res, next) {
         }
 
         match.winner = (match.player1 == playerId) ? match.player2 : match.player1;
+        match.playing = false;
 
         match.save((error, match) => {
             if (error) {
