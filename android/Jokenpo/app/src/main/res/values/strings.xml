@@ -48,6 +48,7 @@
     <string name="match_exit_message">Are you sure you want to give up?</string>
     <string name="match_load_give_up">Giving up the game...</string>
     <string name="match_give_up">You opponent gave up the match!</string>
+    <string name="match_alert_gave_up">Your opponent gave up the game!</string>
 
     <!-- Match Result Activity-->
     <string name="match_result_play_again">Play Again</string>
