@@ -48,6 +48,7 @@ public class Utils {
     public static final String sACCEPT_MATCH_REQUEST = "ACCEPT_MATCH_REQUEST";
     public static final String sPLAYER_MOVE = "PLAYER_MOVE";
     public static final String sMATCH_END = "MATCH_END";
+    public static final String sMATCH_CANCELED = "MATCH_CANCELED";
     public static final int sNOTIFICATION_ID = 1000;
 
     public static AlertDialog.Builder buildSimpleDialog(String title, String message, Context context) {
@@ -60,7 +61,7 @@ public class Utils {
     public static void createSimpleNotification(Context context, String title, String content, Class activityClass, String json) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.jokenpo_logo)
                 .setContentTitle(title)
                 .setContentText(content);
         Intent resultIntent = new Intent(context, activityClass);

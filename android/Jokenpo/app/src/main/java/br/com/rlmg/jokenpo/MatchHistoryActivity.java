@@ -26,7 +26,7 @@ import br.com.rlmg.jokenpo.models.Player;
 import br.com.rlmg.jokenpo.utils.Utils;
 import br.com.rlmg.jokenpo.webservice.WebService;
 
-public class MatchHistoryActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class MatchHistoryActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private ListView mListView;
     private List<Match> mFetchedMatch;

@@ -45,6 +45,7 @@ public class MatchActivity extends BaseActivity {
             SelectableRoundedImageView paper = (SelectableRoundedImageView) findViewById(R.id.match_player_choice_paper);
             SelectableRoundedImageView scissors = (SelectableRoundedImageView) findViewById(R.id.match_player_choice_scissors);
             Button submit = (Button) findViewById(R.id.match_submit_button);
+            Button exitButton = (Button) findViewById(R.id.match_exit_button);
 
             mCurrentChoice = "ROCK";
             mCurrentChoiceImageView.setImageResource(Utils.getImageIdForChoice(mCurrentChoice));
@@ -76,43 +77,103 @@ public class MatchActivity extends BaseActivity {
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = Utils.buildSimpleDialog(getResources().getString(R.string.match_move_confirmation),
-                            getResources().getString(R.string.match_move_message_confirmation), MatchActivity.this);
+                    submitMove();
+                }
+            });
 
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            final DialogInterface dialogInterface = dialog;
-
-                            new AsyncTask<String, Void, HashMap>() {
-                                @Override
-                                protected void onPreExecute() {
-                                    dialogInterface.dismiss();
-                                    mProgressDialog = Utils.createSimpleProgressDialog(getResources().getString(R.string.match_waiting_title),
-                                            getResources().getString(R.string.match_waiting_message), MatchActivity.this);
-                                    mProgressDialog.show();
-                                }
-
-                                @Override
-                                protected HashMap doInBackground(String... params) {
-                                    return WebService.move(mMatch.getId(), Utils.sLoggedPlayer.getId(), mCurrentChoice);
-                                }
-                            }.execute();
-                        }
-                    });
-
-                    builder.setNegativeButton(getResources().getString(R.string.match_cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+            exitButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    exit();
                 }
             });
         }
+    }
+
+    private void submitMove() {
+        AlertDialog.Builder builder = Utils.buildSimpleDialog(getResources().getString(R.string.match_move_confirmation),
+                getResources().getString(R.string.match_move_message_confirmation), MatchActivity.this);
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final DialogInterface dialogInterface = dialog;
+
+                new AsyncTask<String, Void, HashMap>() {
+                    @Override
+                    protected void onPreExecute() {
+                        dialogInterface.dismiss();
+                        mProgressDialog = Utils.createSimpleProgressDialog(getResources().getString(R.string.match_waiting_title),
+                                getResources().getString(R.string.match_waiting_message), MatchActivity.this);
+                        mProgressDialog.show();
+                    }
+
+                    @Override
+                    protected HashMap doInBackground(String... params) {
+                        return WebService.move(mMatch.getId(), Utils.sLoggedPlayer.getId(), mCurrentChoice);
+                    }
+                }.execute();
+            }
+        });
+
+        builder.setNegativeButton(getResources().getString(R.string.match_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void exit() {
+        AlertDialog.Builder builder =
+                Utils.buildSimpleDialog(getResources().getString(R.string.match_exit_confirmation),
+                getResources().getString(R.string.match_exit_message), MatchActivity.this);
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final DialogInterface dialogInterface = dialog;
+
+                new AsyncTask<String, Void, HashMap>() {
+                    @Override
+                    protected void onPreExecute() {
+                        dialogInterface.dismiss();
+                        mProgressDialog = Utils.createSimpleProgressDialog(
+                                getResources().getString(R.string.match_exit_confirmation),
+                                getResources().getString(R.string.match_load_give_up), MatchActivity.this);
+                        mProgressDialog.show();
+                    }
+
+                    @Override
+                    protected HashMap doInBackground(String... params) {
+                        return WebService.ragequit(mMatch.getId(), Utils.sLoggedPlayer.getId());
+                    }
+
+                    @Override
+                    protected void onPostExecute(HashMap hashMap) {
+                        mProgressDialog.dismiss();
+                        Intent intent = new Intent(MatchActivity.this, PlayerActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                }.execute();
+            }
+        });
+
+        builder.setNegativeButton(getResources().getString(R.string.match_cancel),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
@@ -131,7 +192,7 @@ public class MatchActivity extends BaseActivity {
         super.handleBroadcast(json);
 
         Gson gson = new Gson();
-        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        final JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
 
         if (jsonObject != null) {
             String action = jsonObject.get("action").getAsString();
@@ -143,13 +204,46 @@ public class MatchActivity extends BaseActivity {
 
                     // if this is the match that I am waiting for so it should be good
                     if (mMatch != null && mMatch.getId().equals(match.getId())) {
-                        mProgressDialog.dismiss();
+                        if(mProgressDialog != null && mProgressDialog.isShowing()){
+                            mProgressDialog.dismiss();
+                        }
 
                         Intent intent = new Intent(MatchActivity.this, MatchResultActivity.class);
                         intent.putExtra("json", jsonObject.get(WebService.sRESPONSE_DATA).getAsString());
 
                         startActivity(intent);
                         finish();
+                    }
+
+                    break;
+                case Utils.sMATCH_CANCELED:
+                    match = (gson.fromJson(jsonObject.get(WebService.sRESPONSE_DATA).getAsString(), GsonMatch.class)).convert();
+
+                    if (mMatch != null && mMatch.getId().equals(match.getId())) {
+                        if(mProgressDialog != null && mProgressDialog.isShowing()){
+                            mProgressDialog.dismiss();
+                        }
+
+                        Intent intent = new Intent(MatchActivity.this, MatchResultActivity.class);
+                        intent.putExtra("json", jsonObject.get(WebService.sRESPONSE_DATA).getAsString());
+
+                        startActivity(intent);
+                        finish();
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setMessage(getResources().getString(R.string.match_load_give_up))
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Intent intent = new Intent(MatchActivity.this, MatchResultActivity.class);
+                                        intent.putExtra("json", jsonObject.get(WebService.sRESPONSE_DATA).getAsString());
+
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
                     }
 
                     break;

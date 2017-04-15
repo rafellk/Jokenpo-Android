@@ -134,7 +134,7 @@ router.put('/accept/:id', function (req, res, next) {
                 res.status(500).json(error);
                 return;
             }
-            
+
             sendMessage([ player.token ], {
                 action: ACTIONS.ACCEPT_MATCH_REQUEST,
                 notification: "false",
@@ -283,7 +283,7 @@ router.put('/move/:matchId/:playerId/:move', function (req, res, next) {
                     players.forEach(function(player) {
                         tokens.push(player.token);
                     }, this);
-                    
+
                     sendMessage(tokens, {
                         action: ACTIONS.MATCH_END,
                         notification: "false",
@@ -331,11 +331,11 @@ router.put('/ragequit/:matchId/:playerId', function (req, res, next) {
                     res.status(500).json(error);
                     return;
                 }
-                
+
                 sendMessage([ player.token ], {
-                    action: ACTIONS.MATCH_END,
+                    action: ACTIONS.MATCH_CANCELED,
                     notification: "false",
-                    data: match
+                    data: JSON.stringify(match)
                 }, (error) => {
                     if (error) {
                         res.status(500).json({

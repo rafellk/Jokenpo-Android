@@ -44,11 +44,17 @@
     <string name="match_waiting_message">Waiting for player to make his move</string>
     <string name="match_cancel">Cancel</string>
     <string name="match_submit_move">Submit Move</string>
+    <string name="match_exit_confirmation">Exit</string>
+    <string name="match_exit_message">Are you sure you want to give up?</string>
+    <string name="match_load_give_up">Giving up the game...</string>
+    <string name="match_give_up">You opponent gave up the match!</string>
 
     <!-- Match Result Activity-->
     <string name="match_result_play_again">Play Again</string>
     <string name="match_result_exit">Exit</string>
     <string name="match_result_loser">LOSER</string>
     <string name="match_result_winner">WINNER</string>
-
+    <string name="match_result_you_win">You win!</string>
+    <string name="match_result_you_lose">You lose! :(</string>
+    <string name="match_result_draw">Draw</string>
 </resources>

@@ -11,11 +11,11 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_margin="30dip"
-        android:layout_weight="20">
+        android:layout_weight="30">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -45,7 +45,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -74,6 +74,14 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/match_result_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="45dp"
+        android:textAppearance="?android:attr/textAppearanceListItem"
+        android:textAlignment="center"/>
 
     <LinearLayout
         android:layout_width="match_parent"

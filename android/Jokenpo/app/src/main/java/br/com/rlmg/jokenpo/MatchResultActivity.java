@@ -20,6 +20,7 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
     private SelectableRoundedImageView mPlayer2;
     private TextView mLoggedPlayerTextView;
     private TextView mPlayer2TextView;
+    private TextView mResultTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
             mPlayer2 = (SelectableRoundedImageView) findViewById(R.id.match_result_player2);
             mLoggedPlayerTextView = (TextView) findViewById(R.id.match_result_logged_player_text);
             mPlayer2TextView = (TextView) findViewById(R.id.match_result_player2_text);
+            mResultTextView = (TextView) findViewById(R.id.match_result_text);
 
             Button playAgain = (Button) findViewById(R.id.match_result_play_again_button);
             Button exit = (Button) findViewById(R.id.match_result_exit_button);
@@ -68,8 +70,9 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
 
             if (mPlayingMatch.getWinner() != null) {
                 if (mPlayingMatch.getWinner().equals(Utils.sLoggedPlayer.getId())) {
-                    mLoggedPlayerTextView.setText("Winner");
-                    mPlayer2TextView.setText("Looser");
+                    mLoggedPlayerTextView.setText(getResources().getString(R.string.match_result_winner));
+                    mPlayer2TextView.setText(getResources().getString(R.string.match_result_loser));
+                    mResultTextView.setText(getResources().getString(R.string.match_result_you_win));
 
                     mLoggedPlayerTextView.setTextColor(Color.GREEN);
                     mPlayer2TextView.setTextColor(Color.GRAY);
@@ -80,8 +83,9 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
                     mPlayer2.setBorderColor(Color.GRAY);
                     mPlayer2.setBorderWidthDP(1);
                 } else {
-                    mLoggedPlayerTextView.setText("Looser");
-                    mPlayer2TextView.setText("Winner");
+                    mLoggedPlayerTextView.setText(getResources().getString(R.string.match_result_loser));
+                    mPlayer2TextView.setText(getResources().getString(R.string.match_result_winner));
+                    mResultTextView.setText(getResources().getString(R.string.match_result_you_lose));
 
                     mPlayer2TextView.setTextColor(Color.GREEN);
                     mLoggedPlayerTextView.setTextColor(Color.GRAY);
@@ -93,8 +97,9 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
                     mLoggedPlayer.setBorderWidthDP(1);
                 }
             } else {
-                mLoggedPlayerTextView.setText("Draw");
-                mPlayer2TextView.setText("Draw");
+                mLoggedPlayerTextView.setText(getResources().getString(R.string.match_result_draw));
+                mPlayer2TextView.setText(getResources().getString(R.string.match_result_draw));
+                mResultTextView.setText(getResources().getString(R.string.match_result_draw));
 
                 mPlayer2TextView.setTextColor(Color.YELLOW);
                 mLoggedPlayerTextView.setTextColor(Color.YELLOW);
