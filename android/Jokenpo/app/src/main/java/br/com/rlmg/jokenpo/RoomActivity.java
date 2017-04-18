@@ -44,7 +44,7 @@ public class RoomActivity extends MatchMakingProcessBaseActivity implements Swip
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
-        setTitle("Players Online");
+        setTitle(getResources().getString(R.string.room_title));
 
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
         mRefreshLayout.setOnRefreshListener(this);

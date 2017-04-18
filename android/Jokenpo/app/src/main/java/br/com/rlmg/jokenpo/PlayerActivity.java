@@ -25,6 +25,7 @@ public class PlayerActivity extends BaseActivity {
     private Button mButtonViewHistory;
     private Button mButtonLogout;
     private Button mButtonSettings;
+    private String mRequestCode = "AlreadyCreated";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class PlayerActivity extends BaseActivity {
             final NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             createChallengeDialog(json);
         }
+
+        getIntent().setAction(mRequestCode);
 
         TextView textView = (TextView) findViewById(R.id.textView_User);
         textView.setText(Utils.sLoggedPlayer.getName());
@@ -80,6 +83,21 @@ public class PlayerActivity extends BaseActivity {
     public void settings(View v) {
         Intent intent = new Intent(PlayerActivity.this, SettingActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        String action = getIntent().getAction();
+        if(action == null || !action.equals(mRequestCode)) {
+            Intent intent = new Intent(PlayerActivity.this, PlayerActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else{
+            getIntent().setAction(null);
+        }
     }
 
     /**

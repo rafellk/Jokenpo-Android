@@ -34,6 +34,7 @@
     <!-- Room Activity -->
     <string name="room_progress_dialog_title">Desafio</string>
     <string name="room_progress_dialog_message">Esperando o jogador 2 aceitar a partida</string>
+    <string name="room_title">Jogadores Online</string>
 
     <!-- Match Activity-->
     <string name="match_current_choice">Sua escolha atual</string>
@@ -58,4 +59,11 @@
     <string name="match_result_you_win">Você venceu!</string>
     <string name="match_result_you_lose">Você perdeu! :(</string>
     <string name="match_result_draw">Empate</string>
+
+    <!-- Match history result-->
+    <string name="match_history_title">Histórico</string>
+
+    <!-- Settings Activity-->
+    <string name="settings_select_language">Selecionar idioma</string>
+    <string name="settings_title">Configurações</string>
 </resources>
