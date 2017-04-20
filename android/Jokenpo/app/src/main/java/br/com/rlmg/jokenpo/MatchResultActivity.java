@@ -75,25 +75,25 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
                     mResultTextView.setText(getResources().getString(R.string.match_result_you_win));
 
                     mLoggedPlayerTextView.setTextColor(Color.GREEN);
-                    mPlayer2TextView.setTextColor(Color.GRAY);
+                    mPlayer2TextView.setTextColor(Color.RED);
 
                     mLoggedPlayer.setBorderColor(Color.GREEN);
                     mLoggedPlayer.setBorderWidthDP(5);
 
-                    mPlayer2.setBorderColor(Color.GRAY);
-                    mPlayer2.setBorderWidthDP(1);
+                    mPlayer2.setBorderColor(Color.RED);
+                    mPlayer2.setBorderWidthDP(3);
                 } else {
                     mLoggedPlayerTextView.setText(getResources().getString(R.string.match_result_loser));
                     mPlayer2TextView.setText(getResources().getString(R.string.match_result_winner));
                     mResultTextView.setText(getResources().getString(R.string.match_result_you_lose));
 
                     mPlayer2TextView.setTextColor(Color.GREEN);
-                    mLoggedPlayerTextView.setTextColor(Color.GRAY);
+                    mLoggedPlayerTextView.setTextColor(Color.RED);
 
                     mPlayer2.setBorderColor(Color.GREEN);
-                    mPlayer2.setBorderWidthDP(5);
+                    mPlayer2.setBorderWidthDP(3);
 
-                    mLoggedPlayer.setBorderColor(Color.GRAY);
+                    mLoggedPlayer.setBorderColor(Color.RED);
                     mLoggedPlayer.setBorderWidthDP(1);
                 }
             } else {
@@ -101,14 +101,14 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
                 mPlayer2TextView.setText(getResources().getString(R.string.match_result_draw));
                 mResultTextView.setText(getResources().getString(R.string.match_result_draw));
 
-                mPlayer2TextView.setTextColor(Color.YELLOW);
-                mLoggedPlayerTextView.setTextColor(Color.YELLOW);
+                mPlayer2TextView.setTextColor(Color.GRAY);
+                mLoggedPlayerTextView.setTextColor(Color.GRAY);
 
-                mLoggedPlayer.setBorderColor(Color.YELLOW);
-                mLoggedPlayer.setBorderWidthDP(1);
+                mLoggedPlayer.setBorderColor(Color.GRAY);
+                mLoggedPlayer.setBorderWidthDP(3);
 
-                mPlayer2.setBorderColor(Color.YELLOW);
-                mPlayer2.setBorderWidthDP(1);
+                mPlayer2.setBorderColor(Color.GRAY);
+                mPlayer2.setBorderWidthDP(3);
             }
         }
     }

@@ -126,22 +126,35 @@ public class Utils {
         return 0;
     }
 
-    public static String getTimePassed(Date date) {
+    public static int getImageNoBackgroundIdForChoice(String choice) {
+        switch (choice) {
+            case "ROCK":
+                return R.drawable.rock_no_background;
+            case "PAPER":
+                return R.drawable.paper_no_background;
+            case "SCISSORS":
+                return R.drawable.scissors_no_background;
+        }
+
+        return 0;
+    }
+
+    public static String getTimePassed(Date date, Context context) {
         DateTime dateTime = new DateTime(date);
         Seconds seconds = Seconds.secondsBetween(DateTime.now(), dateTime);
         int secondsInt = seconds.getSeconds();
 
         if (secondsInt / 60 == 0) {
-            return seconds + " seconds ago";
+            return seconds + " " + context.getString(R.string.match_history_seconds_ago);
         } else if (secondsInt / 3600 == 0) {
             int minutes = secondsInt / 60;
-            return minutes + " minutes ago";
+            return minutes + " " + context.getString(R.string.match_history_minutes_ago);
         } else if (secondsInt / (3600 * 24) == 0) {
             int hours = secondsInt / 3600;
-            return hours + " hours ago";
+            return hours + " " + context.getString(R.string.match_history_hours_ago);
         } else if (secondsInt / (3600 * 24 * 5) == 0) {
             int days = secondsInt / (3600 * 24);
-            return days + " days ago";
+            return days + " " + context.getString(R.string.match_history_days_ago);
         }
 
         return (String) android.text.format.DateFormat.format("yyyy/MM/dd", date);

@@ -125,12 +125,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="5dip"
+            android:theme="@style/AppTheme.Button"
             android:text="@string/match_submit_move"/>
         <Button
             android:id="@+id/match_exit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:theme="@style/AppTheme.Button"
             android:layout_marginBottom="5dip"
         android:text="@string/match_result_exit"/>
     </LinearLayout>

@@ -54,14 +54,18 @@
     <!-- Match Result Activity-->
     <string name="match_result_play_again">Jogar novamente</string>
     <string name="match_result_exit">Sair</string>
-    <string name="match_result_loser">PERDEDOR</string>
-    <string name="match_result_winner">VENCEDOR</string>
+    <string name="match_result_loser">Perdedor</string>
+    <string name="match_result_winner">Vencedor</string>
     <string name="match_result_you_win">Você venceu!</string>
     <string name="match_result_you_lose">Você perdeu! :(</string>
     <string name="match_result_draw">Empate</string>
 
     <!-- Match history result-->
     <string name="match_history_title">Histórico</string>
+    <string name="match_history_seconds_ago">segundos atrás</string>
+    <string name="match_history_minutes_ago">minutos atrás</string>
+    <string name="match_history_hours_ago">horas atrás</string>
+    <string name="match_history_days_ago">dias atrás</string>
 
     <!-- Settings Activity-->
     <string name="settings_select_language">Selecionar idioma</string>

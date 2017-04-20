@@ -28,7 +28,7 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".PlayerActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme.NoActionBarDefaultTheme"
             android:screenOrientation="portrait"/>
 
         <service android:name=".services.MessagingService">
@@ -43,21 +43,24 @@
         </service>
 
         <activity android:name=".RoomActivity"
+                  android:theme="@style/AppTheme.DefaultTheme"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".MatchActivity"
-                  android:theme="@style/AppTheme.NoActionBar"
+                  android:theme="@style/AppTheme.NoActionBarDefaultTheme"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".MatchResultActivity"
-                  android:theme="@style/AppTheme.NoActionBar"
+                  android:theme="@style/AppTheme.NoActionBarDefaultTheme"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".MatchHistoryActivity"
+                  android:theme="@style/AppTheme.DefaultTheme"
                   android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".SettingActivity"
+            android:theme="@style/AppTheme.DefaultTheme"
             android:screenOrientation="portrait">
         </activity>
     </application>

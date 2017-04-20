@@ -1,10 +1,12 @@
 package br.com.rlmg.jokenpo;
 
+import android.graphics.Color;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -162,27 +164,25 @@ public class MatchHistoryActivity extends BaseActivity implements SwipeRefreshLa
                         movePlayer2 = match.getPlayer1Move();
                     }
 
-                    DateFormat dateFormat = android.text.format.DateFormat.getMediumDateFormat(getApplicationContext());
-
                     holderFinal.player1Name.setText(Utils.sLoggedPlayer.getName().trim());
                     holderFinal.player2Name.setText(player2.getName().trim());
-                    holderFinal.movePlayer1.setImageResource(Utils.getImageIdForChoice(movePlayer1));
-                    holderFinal.movePlayer2.setImageResource(Utils.getImageIdForChoice(movePlayer2));
-                    holderFinal.date.setText(Utils.getTimePassed(match.getCreatedAt()));
-                    holderFinal.result.setText(decideResult(Utils.sLoggedPlayer.getId(), match.getWinner()));
-
-                    Utils.getTimePassed(match.getCreatedAt());
+                    holderFinal.movePlayer1.setImageResource(Utils.getImageNoBackgroundIdForChoice(movePlayer1));
+                    holderFinal.movePlayer2.setImageResource(Utils.getImageNoBackgroundIdForChoice(movePlayer2));
+                    holderFinal.date.setText(Utils.getTimePassed(match.getCreatedAt(), getBaseContext()));
+                    Pair<String, Integer> result = decideResult(Utils.sLoggedPlayer.getId(), match.getWinner());
+                    holderFinal.result.setText(result.first);
+                    holderFinal.result.setTextColor(result.second);
                 }
 
-                private String decideResult(String playerId, String matchWinner){
+                private Pair<String, Integer> decideResult(String playerId, String matchWinner){
                     if(matchWinner == null || matchWinner.isEmpty()){
-                        return "Draw";
+                        return new Pair<String, Integer>(getResources().getString(R.string.match_result_draw), Color.GRAY);
                     }
                     else if(matchWinner.equals(playerId)){
-                        return "Winner";
+                        return new Pair<String, Integer>(getResources().getString(R.string.match_result_winner),Color.GREEN);
                     }
                     else{
-                        return "Loser";
+                        return new Pair<String, Integer>(getResources().getString(R.string.match_result_loser),Color.RED);
                     }
                 }
 
