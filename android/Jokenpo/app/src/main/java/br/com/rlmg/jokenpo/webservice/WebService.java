@@ -30,7 +30,7 @@ import br.com.rlmg.jokenpo.utils.Utils;
 
 public class WebService {
 
-    private static final String sSERVER_URL = "http://192.168.1.7:3003";
+    private static final String sSERVER_URL = "http://10.0.2.2:3003";
 //    private static final String sSERVER_URL = "http://192.168.1.4:3003";
 
     /**

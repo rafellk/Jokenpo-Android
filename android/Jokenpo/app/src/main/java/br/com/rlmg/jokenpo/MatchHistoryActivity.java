@@ -1,30 +1,23 @@
 package br.com.rlmg.jokenpo;
 
 import android.graphics.Color;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.joda.time.DateTime;
-
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import br.com.rlmg.jokenpo.models.GsonMatch;
-import br.com.rlmg.jokenpo.models.GsonPlayer;
 import br.com.rlmg.jokenpo.models.Match;
 import br.com.rlmg.jokenpo.models.Player;
 import br.com.rlmg.jokenpo.utils.Utils;
@@ -92,13 +85,18 @@ public class MatchHistoryActivity extends BaseActivity implements SwipeRefreshLa
         mListView.setAdapter(new MatchListViewAdapter());
     }
 
-    static class ViewHolder {
+    /**
+     * A generic class that represents the data that will be displayed in each list view cell
+     */
+    private class MatchViewHolder {
+        TextView rageQuitMessage;
         TextView player1Name;
         TextView player2Name;
         ImageView movePlayer1;
         ImageView movePlayer2;
         TextView date;
         TextView result;
+        boolean rageQuitted;
     }
 
     private class MatchListViewAdapter extends BaseAdapter {
@@ -121,25 +119,24 @@ public class MatchHistoryActivity extends BaseActivity implements SwipeRefreshLa
         public View getView(int position, View convertView, ViewGroup parent) {
             final Match match = mFetchedMatch.get(position);
 
-            ViewHolder holder = null;
+            MatchViewHolder matchHolder = null;
+            final boolean matchRageQuitted = matchRageQuitted(match);
 
             if (convertView == null) {
-                convertView = LayoutInflater.from(MatchHistoryActivity.this).inflate(R.layout.match_hisotry_list_item, null);
+                matchHolder = new MatchViewHolder();
+                convertView = inflateConvertView(matchHolder, matchRageQuitted);
+            } else {
+                matchHolder = (MatchViewHolder) convertView.getTag();
 
-                holder = new MatchHistoryActivity.ViewHolder();
-                holder.player1Name = (TextView) convertView.findViewById(R.id.player1NameTextView);
-                holder.player2Name = (TextView) convertView.findViewById(R.id.player2NameTextView);
-                holder.movePlayer1 = (ImageView) convertView.findViewById(R.id.movePlayer1Image);
-                holder.movePlayer2 = (ImageView) convertView.findViewById(R.id.movePlayer2Image);
-                holder.date = (TextView) convertView.findViewById(R.id.dateTextView);
-                holder.result = (TextView) convertView.findViewById(R.id.resultTextView);
-
-                convertView.setTag(holder);
-
-            }else{
-                holder = (ViewHolder)convertView.getTag();
+                // if the last match index rage quit boolean property is different than the actual match index then we need to inflate a different list view cell
+                if (matchRageQuitted != matchHolder.rageQuitted) {
+                    convertView = inflateConvertView(matchHolder, matchRageQuitted);
+                }
             }
-            final ViewHolder holderFinal =  holder;
+
+            matchHolder.rageQuitted = matchRageQuitted;
+
+            final MatchViewHolder matchHolderFinal =  matchHolder;
 
             String idOpponent = match.getPlayer1().equals(Utils.sLoggedPlayer.getId()) ? match.getPlayer2() : match.getPlayer1();
 
@@ -152,10 +149,11 @@ public class MatchHistoryActivity extends BaseActivity implements SwipeRefreshLa
                 @Override
                 protected void onPostExecute(HashMap hashMap) {
                     Player player2 = Utils.getPlayerFromJson(hashMap);
+                    String loggedPlayerID = Utils.sLoggedPlayer.getId();
 
                     String movePlayer1;
                     String movePlayer2;
-                    if(match.getPlayer1().equals(Utils.sLoggedPlayer.getId())){
+                    if(match.getPlayer1().equals(loggedPlayerID)) {
                         movePlayer1 = match.getPlayer1Move();
                         movePlayer2 = match.getPlayer2Move();
                     }
@@ -164,31 +162,100 @@ public class MatchHistoryActivity extends BaseActivity implements SwipeRefreshLa
                         movePlayer2 = match.getPlayer1Move();
                     }
 
-                    holderFinal.player1Name.setText(Utils.sLoggedPlayer.getName().trim());
-                    holderFinal.player2Name.setText(player2.getName().trim());
-                    holderFinal.movePlayer1.setImageResource(Utils.getImageNoBackgroundIdForChoice(movePlayer1));
-                    holderFinal.movePlayer2.setImageResource(Utils.getImageNoBackgroundIdForChoice(movePlayer2));
-                    holderFinal.date.setText(Utils.getTimePassed(match.getCreatedAt(), getBaseContext()));
-                    Pair<String, Integer> result = decideResult(Utils.sLoggedPlayer.getId(), match.getWinner());
-                    holderFinal.result.setText(result.first);
-                    holderFinal.result.setTextColor(result.second);
-                }
+                    if (matchRageQuitted) {
+                        if (loggedPlayerID.equals(match.getWinner())) {
+                            matchHolderFinal.rageQuitMessage.setText(player2.getName() + " rage quitted the match :(");
+                        } else {
+                            matchHolderFinal.rageQuitMessage.setText("You rage quitted the match :(");
+                        }
 
-                private Pair<String, Integer> decideResult(String playerId, String matchWinner){
-                    if(matchWinner == null || matchWinner.isEmpty()){
-                        return new Pair<String, Integer>(getResources().getString(R.string.match_result_draw), Color.GRAY);
-                    }
-                    else if(matchWinner.equals(playerId)){
-                        return new Pair<String, Integer>(getResources().getString(R.string.match_result_winner),Color.GREEN);
-                    }
-                    else{
-                        return new Pair<String, Integer>(getResources().getString(R.string.match_result_loser),Color.RED);
+                        matchHolderFinal.date.setText(Utils.getTimePassed(match.getCreatedAt(), getBaseContext()));
+                        Pair<String, Integer> result = decideResult(Utils.sLoggedPlayer.getId(), match.getWinner());
+                        matchHolderFinal.result.setText(result.first);
+                        matchHolderFinal.result.setTextColor(result.second);
+                    } else {
+                        matchHolderFinal.player1Name.setText(Utils.sLoggedPlayer.getName().trim());
+                        matchHolderFinal.player2Name.setText(player2.getName().trim());
+                        matchHolderFinal.movePlayer1.setImageResource(Utils.getImageNoBackgroundIdForChoice(movePlayer1));
+                        matchHolderFinal.movePlayer2.setImageResource(Utils.getImageNoBackgroundIdForChoice(movePlayer2));
+                        matchHolderFinal.date.setText(Utils.getTimePassed(match.getCreatedAt(), getBaseContext()));
+                        Pair<String, Integer> result = decideResult(Utils.sLoggedPlayer.getId(), match.getWinner());
+                        matchHolderFinal.result.setText(result.first);
+                        matchHolderFinal.result.setTextColor(result.second);
                     }
                 }
-
             }.execute(idOpponent);
 
             return convertView;
+        }
+    }
+
+    /**
+     * Method that determines if the match ended by rage quit or not
+     *
+     * @param match - The match to be analised
+     *
+     * @return TRUE if the match was rage quitted. FALSE otherwise
+     */
+    private boolean matchRageQuitted(Match match) {
+        return match.getPlayer1Move().equals("NONE") || match.getPlayer2Move().equals("NONE");
+    }
+
+    /**
+     * Method that receives a view and fill a MatchViewHolder with the view's properties
+     *
+     * @param matchViewHolder - the holder to be filled
+     *
+     * @param convertView - The view to be used as source
+     */
+    private void fillMatchViewHolder(MatchViewHolder matchViewHolder, View convertView) {
+        matchViewHolder.rageQuitMessage = (TextView) convertView.findViewById(R.id.rageQuitMessage);
+        matchViewHolder.player2Name = (TextView) convertView.findViewById(R.id.player2NameTextView);
+        matchViewHolder.player1Name = (TextView) convertView.findViewById(R.id.player1NameTextView);
+        matchViewHolder.movePlayer1 = (ImageView) convertView.findViewById(R.id.movePlayer1Image);
+        matchViewHolder.movePlayer2 = (ImageView) convertView.findViewById(R.id.movePlayer2Image);
+        matchViewHolder.date = (TextView) convertView.findViewById(R.id.dateTextView);
+        matchViewHolder.result = (TextView) convertView.findViewById(R.id.resultTextView);
+    }
+
+    /**
+     * Method that inflates the correct list view cell depending on the rage quit boolean flag
+     *
+     * @param matchViewHolder - the MatchViewHolder to hold the cell values for future use
+     *
+     * @param matchRageQuitted - a boolean that represents if the match was rage quitted or not
+     */
+    private View inflateConvertView(MatchViewHolder matchViewHolder, boolean matchRageQuitted) {
+        View convertView = null;
+
+        // if the match was rage quitted then load the specific rage quit game list view cell
+        if (matchRageQuitted) {
+            convertView = LayoutInflater.from(MatchHistoryActivity.this).inflate(R.layout.match_history_rage_list_item, null);
+        } else {
+            convertView = LayoutInflater.from(MatchHistoryActivity.this).inflate(R.layout.match_hisotry_list_item, null);
+        }
+
+        fillMatchViewHolder(matchViewHolder, convertView);
+        convertView.setTag(matchViewHolder);
+
+        return convertView;
+    }
+
+    /**
+     * Method that decides the match result based on the player id
+     * @param playerId
+     * @param matchWinner
+     * @return
+     */
+    private Pair<String, Integer> decideResult(String playerId, String matchWinner) {
+        if(matchWinner == null || matchWinner.isEmpty()){
+            return new Pair<String, Integer>(getResources().getString(R.string.match_result_draw), Color.GRAY);
+        }
+        else if(matchWinner.equals(playerId)){
+            return new Pair<String, Integer>(getResources().getString(R.string.match_result_winner),Color.GREEN);
+        }
+        else{
+            return new Pair<String, Integer>(getResources().getString(R.string.match_result_loser),Color.RED);
         }
     }
 }
