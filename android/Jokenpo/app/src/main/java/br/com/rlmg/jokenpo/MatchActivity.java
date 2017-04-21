@@ -232,8 +232,8 @@ public class MatchActivity extends BaseActivity {
                                 .setCancelable(false)
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        Intent intent = new Intent(MatchActivity.this, MatchResultActivity.class);
-                                        intent.putExtra("json", jsonObject.get(WebService.sRESPONSE_DATA).getAsString());
+                                        Intent intent = new Intent(MatchActivity.this, PlayerActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
                                         startActivity(intent);
                                         finish();

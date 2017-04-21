@@ -163,6 +163,7 @@ public class MatchHistoryActivity extends BaseActivity implements SwipeRefreshLa
                     }
 
                     if (matchRageQuitted) {
+                        // todo: place those messages inside strings.xml
                         if (loggedPlayerID.equals(match.getWinner())) {
                             matchHolderFinal.rageQuitMessage.setText(player2.getName() + " rage quitted the match :(");
                         } else {
