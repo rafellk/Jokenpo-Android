@@ -1,29 +1,15 @@
 package br.com.rlmg.jokenpo;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.app.TaskStackBuilder;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import java.util.HashMap;
 
@@ -37,6 +23,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button mBtnLogin;
     private EditText mEditTextUser;
     private ProgressDialog mProgressDialog = null;
+    //private MediaPlayer media = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +32,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         mBtnLogin = (Button) findViewById(R.id.btn_login);
         mEditTextUser = (EditText) findViewById(R.id.editTextUser);
+        //media = MediaPlayer.create(this, R.raw.click_one);
+
+        setTextSize();
 
         mBtnLogin.setOnClickListener(this);
     }
 
+    private void setTextSize(){
+        mBtnLogin.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+        mEditTextUser.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize + 3);
+    }
+
     @Override
     public void onClick(View v) {
+        //media.start();
         if (!validateEntry()) {
             return;
         }
@@ -66,7 +62,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private boolean validateEntry() {
         boolean valid = true;
         String user = mEditTextUser.getText().toString();
-
         if (user.isEmpty()) {
             mEditTextUser.setError(getResources().getString(R.string.valid_user_name_message));
             return false;

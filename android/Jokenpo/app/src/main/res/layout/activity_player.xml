@@ -33,28 +33,32 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="@string/menu_play_button_text"/>
+            android:text="@string/menu_play_button_text"
+            android:theme="@style/AppTheme.Button"/>
 
         <Button
             android:id="@+id/btn_viewHistory"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="@string/menu_view_match_history_button_text"/>
+            android:text="@string/menu_view_match_history_button_text"
+            android:theme="@style/AppTheme.Button"/>
 
         <Button
             android:id="@+id/btn_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="@string/menu_settings_button_text"/>
+            android:text="@string/menu_settings_button_text"
+            android:theme="@style/AppTheme.Button"/>
 
         <Button
             android:id="@+id/btn_logout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="@string/menu_logout_button_text"/>
+            android:text="@string/menu_logout_button_text"
+            android:theme="@style/AppTheme.Button"/>
 
     </LinearLayout>
 </ScrollView>

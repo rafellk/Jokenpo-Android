@@ -34,6 +34,7 @@
     <!-- Room Activity -->
     <string name="room_progress_dialog_title">Desafio</string>
     <string name="room_progress_dialog_message">Esperando o jogador 2 aceitar a partida</string>
+    <string name="room_title">Jogadores Online</string>
 
     <!-- Match Activity-->
     <string name="match_current_choice">Sua escolha atual</string>
@@ -53,9 +54,28 @@
     <!-- Match Result Activity-->
     <string name="match_result_play_again">Jogar novamente</string>
     <string name="match_result_exit">Sair</string>
-    <string name="match_result_loser">PERDEDOR</string>
-    <string name="match_result_winner">VENCEDOR</string>
+    <string name="match_result_loser">Perdedor</string>
+    <string name="match_result_winner">Vencedor</string>
     <string name="match_result_you_win">Você venceu!</string>
     <string name="match_result_you_lose">Você perdeu! :(</string>
     <string name="match_result_draw">Empate</string>
+
+    <!-- Match history result-->
+    <string name="match_history_title">Histórico</string>
+    <string name="match_history_seconds_ago">segundos atrás</string>
+    <string name="match_history_minutes_ago">minutos atrás</string>
+    <string name="match_history_hours_ago">horas atrás</string>
+    <string name="match_history_days_ago">dias atrás</string>
+    <string name="match_history_opponent_quitted"> saiu da partida :(</string>
+    <string name="match_history_you_quitted">Você saiu da partida :(</string>
+
+    <!-- Settings Activity-->
+    <string name="settings_select_language">Selecionar idioma</string>
+    <string name="settings_select_font_size">Tamanho da fonte</string>
+    <string name="settings_show_notification">Exibir notificação</string>
+    <string name="settings_sound">Som</string>
+    <string name="settings_title">Configurações</string>
+    <string name="settings_font_size_small">Pequeno</string>
+    <string name="settings_font_size_normal">Normal</string>
+    <string name="settings_font_size_large">Grande</string>
 </resources>

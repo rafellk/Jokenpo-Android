@@ -34,6 +34,7 @@
     <!-- Room Activity -->
     <string name="room_progress_dialog_title">Challenge</string>
     <string name="room_progress_dialog_message">Waiting for Player 2 to accept the match</string>
+    <string name="room_title">Players Online</string>
 
     <!-- Match Activity-->
     <string name="match_current_choice">Your current choice</string>
@@ -53,9 +54,28 @@
     <!-- Match Result Activity-->
     <string name="match_result_play_again">Play Again</string>
     <string name="match_result_exit">Exit</string>
-    <string name="match_result_loser">LOSER</string>
-    <string name="match_result_winner">WINNER</string>
+    <string name="match_result_loser">Loser</string>
+    <string name="match_result_winner">Winner</string>
     <string name="match_result_you_win">You win!</string>
     <string name="match_result_you_lose">You lose! :(</string>
     <string name="match_result_draw">Draw</string>
+
+    <!-- Match history result-->
+    <string name="match_history_title">Historic</string>
+    <string name="match_history_seconds_ago">seconds ago</string>
+    <string name="match_history_minutes_ago">minutes ago</string>
+    <string name="match_history_hours_ago">hours ago</string>
+    <string name="match_history_days_ago">days ago</string>
+    <string name="match_history_opponent_quitted"> rage quitted the match :(</string>
+    <string name="match_history_you_quitted">You rage quitted the match :(</string>
+
+    <!-- Settings Activity-->
+    <string name="settings_select_language">Select language</string>
+    <string name="settings_select_font_size">Font size</string>
+    <string name="settings_show_notification">Show notification</string>
+    <string name="settings_sound">Sound</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_font_size_small">Small</string>
+    <string name="settings_font_size_normal">Normal</string>
+    <string name="settings_font_size_large">Large</string>
 </resources>

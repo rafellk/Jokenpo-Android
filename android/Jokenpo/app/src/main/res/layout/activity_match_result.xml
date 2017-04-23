@@ -96,7 +96,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/match_result_play_again"
-            ></Button>
+            android:theme="@style/AppTheme.Button"/>
 
         <Button
             android:id="@+id/match_result_exit_button"
@@ -104,7 +104,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/match_result_exit"
-            ></Button>
+            android:theme="@style/AppTheme.Button"/>
 
     </LinearLayout>
 

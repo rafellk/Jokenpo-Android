@@ -2,8 +2,8 @@ package br.com.rlmg.jokenpo;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,6 +21,8 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
     private TextView mLoggedPlayerTextView;
     private TextView mPlayer2TextView;
     private TextView mResultTextView;
+    private Button mPlayAgainButton;
+    private Button mExitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,20 +38,21 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
             mPlayer2TextView = (TextView) findViewById(R.id.match_result_player2_text);
             mResultTextView = (TextView) findViewById(R.id.match_result_text);
 
-            Button playAgain = (Button) findViewById(R.id.match_result_play_again_button);
-            Button exit = (Button) findViewById(R.id.match_result_exit_button);
+            mPlayAgainButton = (Button) findViewById(R.id.match_result_play_again_button);
+            mExitButton = (Button) findViewById(R.id.match_result_exit_button);
 
             // go to the room activity to choose other player to play again
-            playAgain.setOnClickListener(new View.OnClickListener() {
+            mPlayAgainButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String player2 = mPlayingMatch.getPlayer1().equals(Utils.sLoggedPlayer.getId()) ? mPlayingMatch.getPlayer2() : mPlayingMatch.getPlayer1();
+                    String player2 = mPlayingMatch.getPlayer1().equals(Utils.sLoggedPlayer.getId())
+                            ? mPlayingMatch.getPlayer2() : mPlayingMatch.getPlayer1();
                     challengePlayer(player2);
                 }
             });
 
             // return to the player main hub
-            exit.setOnClickListener(new View.OnClickListener() {
+            mExitButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MatchResultActivity.this, PlayerActivity.class);
@@ -75,25 +78,25 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
                     mResultTextView.setText(getResources().getString(R.string.match_result_you_win));
 
                     mLoggedPlayerTextView.setTextColor(Color.GREEN);
-                    mPlayer2TextView.setTextColor(Color.GRAY);
+                    mPlayer2TextView.setTextColor(Color.RED);
 
                     mLoggedPlayer.setBorderColor(Color.GREEN);
                     mLoggedPlayer.setBorderWidthDP(5);
 
-                    mPlayer2.setBorderColor(Color.GRAY);
-                    mPlayer2.setBorderWidthDP(1);
+                    mPlayer2.setBorderColor(Color.RED);
+                    mPlayer2.setBorderWidthDP(3);
                 } else {
                     mLoggedPlayerTextView.setText(getResources().getString(R.string.match_result_loser));
                     mPlayer2TextView.setText(getResources().getString(R.string.match_result_winner));
                     mResultTextView.setText(getResources().getString(R.string.match_result_you_lose));
 
                     mPlayer2TextView.setTextColor(Color.GREEN);
-                    mLoggedPlayerTextView.setTextColor(Color.GRAY);
+                    mLoggedPlayerTextView.setTextColor(Color.RED);
 
                     mPlayer2.setBorderColor(Color.GREEN);
-                    mPlayer2.setBorderWidthDP(5);
+                    mPlayer2.setBorderWidthDP(3);
 
-                    mLoggedPlayer.setBorderColor(Color.GRAY);
+                    mLoggedPlayer.setBorderColor(Color.RED);
                     mLoggedPlayer.setBorderWidthDP(1);
                 }
             } else {
@@ -101,16 +104,24 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
                 mPlayer2TextView.setText(getResources().getString(R.string.match_result_draw));
                 mResultTextView.setText(getResources().getString(R.string.match_result_draw));
 
-                mPlayer2TextView.setTextColor(Color.YELLOW);
-                mLoggedPlayerTextView.setTextColor(Color.YELLOW);
+                mPlayer2TextView.setTextColor(Color.GRAY);
+                mLoggedPlayerTextView.setTextColor(Color.GRAY);
 
-                mLoggedPlayer.setBorderColor(Color.YELLOW);
-                mLoggedPlayer.setBorderWidthDP(1);
+                mLoggedPlayer.setBorderColor(Color.GRAY);
+                mLoggedPlayer.setBorderWidthDP(3);
 
-                mPlayer2.setBorderColor(Color.YELLOW);
-                mPlayer2.setBorderWidthDP(1);
+                mPlayer2.setBorderColor(Color.GRAY);
+                mPlayer2.setBorderWidthDP(3);
             }
+            setTextSize();
         }
     }
 
+    private void setTextSize(){
+        mLoggedPlayerTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+        mPlayer2TextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+        mResultTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize + 6);
+        mPlayAgainButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+        mExitButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+    }
 }
