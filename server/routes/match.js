@@ -252,7 +252,7 @@ router.put('/move/:matchId/:playerId/:move', function (req, res, next) {
                     match.winner = match.player1;
                     break;
                     case 'ROCK':
-                    match.winner = match.player1;
+                    match.winner = match.player2;
                     break;
                     case 'SCISSORS':
                     break;
