@@ -250,7 +250,7 @@ public class MatchHistoryActivity extends BaseActivity implements SwipeRefreshLa
         if (matchRageQuitted) {
             convertView = LayoutInflater.from(MatchHistoryActivity.this).inflate(R.layout.match_history_rage_list_item, null);
         } else {
-            convertView = LayoutInflater.from(MatchHistoryActivity.this).inflate(R.layout.match_hisotry_list_item, null);
+            convertView = LayoutInflater.from(MatchHistoryActivity.this).inflate(R.layout.match_history_list_item, null);
         }
 
         fillMatchViewHolder(matchViewHolder, convertView);
