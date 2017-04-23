@@ -66,8 +66,16 @@
     <string name="match_history_minutes_ago">minutos atrás</string>
     <string name="match_history_hours_ago">horas atrás</string>
     <string name="match_history_days_ago">dias atrás</string>
+    <string name="match_history_opponent_quitted"> saiu da partida :(</string>
+    <string name="match_history_you_quitted">Você saiu da partida :(</string>
 
     <!-- Settings Activity-->
     <string name="settings_select_language">Selecionar idioma</string>
+    <string name="settings_select_font_size">Tamanho da fonte</string>
+    <string name="settings_show_notification">Exibir notificação</string>
+    <string name="settings_sound">Som</string>
     <string name="settings_title">Configurações</string>
+    <string name="settings_font_size_small">Pequeno</string>
+    <string name="settings_font_size_normal">Normal</string>
+    <string name="settings_font_size_large">Grande</string>
 </resources>

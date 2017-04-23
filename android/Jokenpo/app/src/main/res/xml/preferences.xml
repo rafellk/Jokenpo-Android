@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListPreference     android:title="@string/settings_select_language"
-                        android:key="settingLanguage"
-                        android:entries="@array/listArray"
-                        android:entryValues="@array/listValues" />
+    <ListPreference
+        android:entries="@array/listArray"
+        android:entryValues="@array/listValues"
+        android:key="settingLanguage"
+        android:title="@string/settings_select_language"/>
+    <ListPreference
+        android:key="settingFontSize"
+        android:title="@string/settings_select_font_size"/>
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="settingNotification"
+        android:title="@string/settings_show_notification"/>
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="settingSound"
+        android:title="@string/settings_sound"/>
 </PreferenceScreen>

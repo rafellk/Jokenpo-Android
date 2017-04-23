@@ -2,8 +2,8 @@ package br.com.rlmg.jokenpo;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,6 +21,8 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
     private TextView mLoggedPlayerTextView;
     private TextView mPlayer2TextView;
     private TextView mResultTextView;
+    private Button mPlayAgainButton;
+    private Button mExitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,20 +38,21 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
             mPlayer2TextView = (TextView) findViewById(R.id.match_result_player2_text);
             mResultTextView = (TextView) findViewById(R.id.match_result_text);
 
-            Button playAgain = (Button) findViewById(R.id.match_result_play_again_button);
-            Button exit = (Button) findViewById(R.id.match_result_exit_button);
+            mPlayAgainButton = (Button) findViewById(R.id.match_result_play_again_button);
+            mExitButton = (Button) findViewById(R.id.match_result_exit_button);
 
             // go to the room activity to choose other player to play again
-            playAgain.setOnClickListener(new View.OnClickListener() {
+            mPlayAgainButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String player2 = mPlayingMatch.getPlayer1().equals(Utils.sLoggedPlayer.getId()) ? mPlayingMatch.getPlayer2() : mPlayingMatch.getPlayer1();
+                    String player2 = mPlayingMatch.getPlayer1().equals(Utils.sLoggedPlayer.getId())
+                            ? mPlayingMatch.getPlayer2() : mPlayingMatch.getPlayer1();
                     challengePlayer(player2);
                 }
             });
 
             // return to the player main hub
-            exit.setOnClickListener(new View.OnClickListener() {
+            mExitButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MatchResultActivity.this, PlayerActivity.class);
@@ -110,7 +113,15 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
                 mPlayer2.setBorderColor(Color.GRAY);
                 mPlayer2.setBorderWidthDP(3);
             }
+            setTextSize();
         }
     }
 
+    private void setTextSize(){
+        mLoggedPlayerTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+        mPlayer2TextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+        mResultTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize + 6);
+        mPlayAgainButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+        mExitButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+    }
 }

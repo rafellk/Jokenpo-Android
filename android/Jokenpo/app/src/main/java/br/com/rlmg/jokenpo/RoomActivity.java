@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,6 +140,7 @@ public class RoomActivity extends MatchMakingProcessBaseActivity implements Swip
 
                 holder = new ViewHolder();
                 holder.roomListViewItemPlayerName = (TextView) convertView.findViewById(R.id.roomListViewItemPlayerName);
+                setTextSize(holder.roomListViewItemPlayerName);
 
                 convertView.setTag(holder);
 
@@ -149,6 +151,10 @@ public class RoomActivity extends MatchMakingProcessBaseActivity implements Swip
             holder.roomListViewItemPlayerName.setText(player.getName());
 
             return convertView;
+        }
+
+        private void setTextSize(TextView roomListViewItemPlayerName){
+            roomListViewItemPlayerName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
         }
     }
 }

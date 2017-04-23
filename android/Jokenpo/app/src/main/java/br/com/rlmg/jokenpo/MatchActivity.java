@@ -11,8 +11,10 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -31,6 +33,10 @@ public class MatchActivity extends BaseActivity {
     private String mCurrentChoice = null;
     private ProgressDialog mProgressDialog = null;
     private Match mMatch = null;
+    private Button mSubmit;
+    private Button mExitButton;
+    private TextView mCurrentChoiceTextView = null;
+    private TextView mChooseMoveTextView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +50,12 @@ public class MatchActivity extends BaseActivity {
             SelectableRoundedImageView rock = (SelectableRoundedImageView) findViewById(R.id.match_player_choice_rock);
             SelectableRoundedImageView paper = (SelectableRoundedImageView) findViewById(R.id.match_player_choice_paper);
             SelectableRoundedImageView scissors = (SelectableRoundedImageView) findViewById(R.id.match_player_choice_scissors);
-            Button submit = (Button) findViewById(R.id.match_submit_button);
-            Button exitButton = (Button) findViewById(R.id.match_exit_button);
+            mSubmit = (Button) findViewById(R.id.match_submit_button);
+            mExitButton = (Button) findViewById(R.id.match_exit_button);
+            mCurrentChoiceTextView = (TextView) findViewById(R.id.match_player_choice_label);
+            mChooseMoveTextView = (TextView) findViewById(R.id.match_player_choose_your_move);
+
+            setTextSize();
 
             mCurrentChoice = "ROCK";
             mCurrentChoiceImageView.setImageResource(Utils.getImageIdForChoice(mCurrentChoice));
@@ -74,14 +84,14 @@ public class MatchActivity extends BaseActivity {
                 }
             });
 
-            submit.setOnClickListener(new View.OnClickListener() {
+            mSubmit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     submitMove();
                 }
             });
 
-            exitButton.setOnClickListener(new View.OnClickListener() {
+            mExitButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     exit();
@@ -246,5 +256,12 @@ public class MatchActivity extends BaseActivity {
                     break;
             }
         }
+    }
+
+    private void setTextSize(){
+        mSubmit.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+        mExitButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+        mChooseMoveTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+        mCurrentChoiceTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
     }
 }

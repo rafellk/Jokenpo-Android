@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.util.Pair;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -163,11 +164,12 @@ public class MatchHistoryActivity extends BaseActivity implements SwipeRefreshLa
                     }
 
                     if (matchRageQuitted) {
-                        // todo: place those messages inside strings.xml
+
                         if (loggedPlayerID.equals(match.getWinner())) {
-                            matchHolderFinal.rageQuitMessage.setText(player2.getName() + " rage quitted the match :(");
+                            matchHolderFinal.rageQuitMessage.setText(player2.getName()
+                                    + getResources().getString(R.string.match_history_opponent_quitted));
                         } else {
-                            matchHolderFinal.rageQuitMessage.setText("You rage quitted the match :(");
+                            matchHolderFinal.rageQuitMessage.setText(getResources().getString(R.string.match_history_you_quitted));
                         }
 
                         matchHolderFinal.date.setText(Utils.getTimePassed(match.getCreatedAt(), getBaseContext()));
@@ -184,10 +186,25 @@ public class MatchHistoryActivity extends BaseActivity implements SwipeRefreshLa
                         matchHolderFinal.result.setText(result.first);
                         matchHolderFinal.result.setTextColor(result.second);
                     }
+                    setTextSize(matchHolderFinal, matchRageQuitted);
                 }
             }.execute(idOpponent);
 
             return convertView;
+        }
+    }
+
+    private void setTextSize(MatchViewHolder matchHolderFinal, boolean matchRageQuitted){
+        if(matchRageQuitted){
+            matchHolderFinal.rageQuitMessage.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+            matchHolderFinal.date.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+            matchHolderFinal.result.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+        }
+        else{
+            matchHolderFinal.player1Name.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+            matchHolderFinal.player2Name.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+            matchHolderFinal.date.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
+            matchHolderFinal.result.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
         }
     }
 

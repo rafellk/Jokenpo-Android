@@ -43,6 +43,15 @@ public class Utils {
      */
     public static boolean sPaused = false;
 
+    /**
+     * Variables responsible for application state
+     */
+    public static boolean sShowNotification = true;
+
+    /**
+     * Variables responsible for application state
+     */
+    public static int sSTextSize = 15;
 
     /**
      * Message received notification constants
