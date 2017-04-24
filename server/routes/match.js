@@ -352,4 +352,41 @@ router.put('/ragequit/:matchId/:playerId', function (req, res, next) {
     });
 });
 
+router.post('/taunt/:matchId/:playerId/:taunt', (req, res, next) => {
+    Match.findById(matchId, (error, match) => {
+        if (error) {
+            console.log('Error: ' + error);
+            res.status(500).json(error);
+            return;
+        }
+
+        let oponentId = (match.player1 == playerId) ? match.player2 : match.player1;
+
+        Player.findById(oponentId, (error, player) => {
+            if (error) {
+                res.status(500).json(error);
+                return;
+            }
+
+            let tauntJSON = {taunt: taunt}
+
+            sendMessage([ player.token ], {
+                action: ACTIONS.TAUNT,
+                notification: "false",
+                data: JSON.stringify(tauntJSON)
+            }, (error) => {
+                if (error) {
+                    console.log('Error: ' + error);
+                    res.status(500).json({
+                        error: error
+                    });
+                    return;
+                }
+
+                res.status(201).json(match);
+            });
+        });
+    });
+});
+
 module.exports = router;

@@ -186,6 +186,10 @@ public class MatchActivity extends BaseActivity {
         dialog.show();
     }
 
+    private void sendTaunt() {
+        // TODO: code the send taunt action here
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -254,7 +258,31 @@ public class MatchActivity extends BaseActivity {
                     }
 
                     break;
+
+                case Utils.sTAUNT:
+                    JsonObject object = (gson.fromJson(jsonObject.get(WebService.sRESPONSE_DATA).getAsString(), JsonObject.class));
+                    String taunt = object.get("taunt").getAsString();
+                    handleTaunt(taunt);
             }
+        }
+    }
+
+    /**
+     * Method that receives the taunt type and decide what to do with it
+     *
+     * @param taunt - The string that represents the taunt type
+     */
+    private void handleTaunt(String taunt) {
+        switch (taunt) {
+            case Utils.sTAUNT_CRY:
+
+                break;
+            case Utils.sTAUNT_GOOD_LUCK:
+                break;
+            case Utils.sTAUNT_LOOSER:
+                break;
+            case Utils.sTAUNT_SMILE:
+                break;
         }
     }
 

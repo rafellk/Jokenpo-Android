@@ -62,6 +62,16 @@ public class Utils {
     public static final String sPLAYER_MOVE = "PLAYER_MOVE";
     public static final String sMATCH_END = "MATCH_END";
     public static final String sMATCH_CANCELED = "MATCH_CANCELED";
+    public static final String sTAUNT = "TAUNT";
+
+    /**
+     * Tautn message received notification constants
+     */
+    public static final String sTAUNT_LOOSER = "TAUNT_LOOSER";
+    public static final String sTAUNT_GOOD_LUCK = "TAUNT_GOOD_LUCK";
+    public static final String sTAUNT_SMILE = "TAUNT_SMILE";
+    public static final String sTAUNT_CRY = "TAUNT_CRY";
+
     public static final int sNOTIFICATION_ID = 1000;
 
     public static AlertDialog.Builder buildSimpleDialog(String title, String message, Context context) {

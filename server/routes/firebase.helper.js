@@ -9,7 +9,15 @@ const ACTIONS = {
     ACCEPT_MATCH_REQUEST: "ACCEPT_MATCH_REQUEST",
     PLAYER_MOVE: "PLAYER_MOVE",
     MATCH_END: "MATCH_END",
-    MATCH_CANCELED: "MATCH_CANCELED"
+    MATCH_CANCELED: "MATCH_CANCELED",
+    TAUNT: "TAUNT",
+}
+
+const TAUNT_ACTIONS = {
+    LOOSER: "LOOSER",
+    GOOD_LUCK: "GOOD LUCK",
+    SMILE: "SMILE",
+    CRY: "CRY"
 }
 
 /**
@@ -50,5 +58,6 @@ var sendMessage = (tokens, dataJSON, callback) => {
 
 module.exports = {
     sendMessage: sendMessage,
-    actions: ACTIONS
+    actions: ACTIONS,
+    taunt_actions: TAUNT_ACTIONS
 };
