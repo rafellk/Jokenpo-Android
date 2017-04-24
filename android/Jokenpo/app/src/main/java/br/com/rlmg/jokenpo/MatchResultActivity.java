@@ -120,7 +120,7 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
     private void setTextSize(){
         mLoggedPlayerTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
         mPlayer2TextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
-        mResultTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize + 6);
+        mResultTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize + 8);
         mPlayAgainButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
         mExitButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Utils.sSTextSize);
     }
