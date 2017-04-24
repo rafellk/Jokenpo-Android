@@ -6,6 +6,8 @@
         android:key="settingLanguage"
         android:title="@string/settings_select_language"/>
     <ListPreference
+        android:entries="@array/listFontSize"
+        android:entryValues="@array/listValuesFontSize"
         android:key="settingFontSize"
         android:title="@string/settings_select_font_size"/>
     <SwitchPreference

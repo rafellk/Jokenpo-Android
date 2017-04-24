@@ -46,7 +46,6 @@ public class SettingActivity extends PreferenceActivity  {
 
             listLanguage.setValue(String.valueOf(getDefaultValueLocale()));
             listFontSize.setValue(String.valueOf(getDefaultValueFontSize()));
-            setListPreferenceData(listFontSize);
 
             context = getActivity();
 
@@ -78,17 +77,6 @@ public class SettingActivity extends PreferenceActivity  {
                     return true;
                 }
             });
-        }
-
-        private void setListPreferenceData(ListPreference listFontSize) {
-            CharSequence[] entries = {
-                    getResources().getString(R.string.settings_font_size_small),
-                    getResources().getString(R.string.settings_font_size_normal),
-                    getResources().getString(R.string.settings_font_size_large) };
-            CharSequence[] entryValues = {"1" , "2", "3"};
-            listFontSize.setEntries(entries);
-            listFontSize.setDefaultValue("1");
-            listFontSize.setEntryValues(entryValues);
         }
 
         private boolean adjustVolume(Boolean newValue) {

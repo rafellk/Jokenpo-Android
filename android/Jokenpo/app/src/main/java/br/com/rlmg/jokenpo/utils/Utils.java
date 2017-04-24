@@ -151,7 +151,7 @@ public class Utils {
     public static String getTimePassed(Date date, Context context) {
         DateTime dateTime = new DateTime(date);
         Seconds seconds = Seconds.secondsBetween(DateTime.now(), dateTime);
-        int secondsInt = seconds.getSeconds();
+        int secondsInt = Math.abs(seconds.getSeconds());
 
         if (secondsInt / 60 == 0) {
             return seconds + " " + context.getString(R.string.match_history_seconds_ago);
