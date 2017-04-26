@@ -1,5 +1,8 @@
 package br.com.rlmg.jokenpo.models;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+
 import java.util.Date;
 
 /**
@@ -14,6 +17,7 @@ public class Player {
     private boolean logged;
     private int version;
     private Date createdAt;
+    private Bitmap profileImage;
 
 
     public Player() {
@@ -74,5 +78,13 @@ public class Player {
 
     public void setFirebaseToken(String firebaseToken) {
         this.firebaseToken = firebaseToken;
+    }
+
+    public Bitmap getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(Bitmap image) {
+        this.profileImage = image;
     }
 }

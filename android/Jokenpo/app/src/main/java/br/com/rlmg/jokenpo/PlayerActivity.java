@@ -5,14 +5,20 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.joooonho.SelectableRoundedImageView;
 
 import java.util.HashMap;
 
@@ -28,7 +34,11 @@ public class PlayerActivity extends BaseActivity {
     private Button mButtonLogout;
     private Button mButtonSettings;
     private String mRequestCode = "AlreadyCreated";
+    private FloatingActionButton mFloatButtonProfilePhoto;
+    private SelectableRoundedImageView mProfileImage;
     //private MediaPlayer media = null;
+
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +62,22 @@ public class PlayerActivity extends BaseActivity {
         mButtonViewHistory = (Button) findViewById(R.id.btn_viewHistory);
         mButtonLogout = (Button) findViewById(R.id.btn_logout);
         mButtonSettings = (Button) findViewById(R.id.btn_settings);
+        mFloatButtonProfilePhoto = (FloatingActionButton) findViewById(R.id.fab_profile_photo);
+        mProfileImage = (SelectableRoundedImageView) findViewById(R.id.profile_image);
 
+        if(Utils.sLoggedPlayer.getProfileImage() != null) {
+            mProfileImage.setImageBitmap(Utils.sLoggedPlayer.getProfileImage());
+        }
+        else{
+            mProfileImage.setImageResource(R.drawable.default_user);
+        }
         setTextSize();
+
+        mFloatButtonProfilePhoto.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                GetImageFromGallery();
+            }
+        });
 
         mButtonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +98,25 @@ public class PlayerActivity extends BaseActivity {
             @Override
             public void onClick(View v) {settings(v);}
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Uri imageUri = data.getData();
+            try
+            {
+                Bitmap image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                Utils.sLoggedPlayer.setProfileImage(image);
+            }
+            catch (Exception e){ }
+        }
+    }
+
+    private void GetImageFromGallery() {
+        Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(pickPhoto , REQUEST_IMAGE_CAPTURE);
     }
 
     public void play(View v) {

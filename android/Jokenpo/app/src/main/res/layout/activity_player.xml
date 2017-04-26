@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true">
@@ -12,12 +14,40 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="190dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="24dp"
-            android:src="@drawable/jokenpo_logo" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+            <com.joooonho.SelectableRoundedImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"
+                android:layout_height="190dp"
+                android:layout_width="199dp"
+                android:layout_marginTop="20dip"
+                android:layout_marginBottom="24dp"
+                app:sriv_left_top_corner_radius="16dip"
+                app:sriv_right_top_corner_radius="0dip"
+                app:sriv_left_bottom_corner_radius="48dip"
+                app:sriv_right_bottom_corner_radius="16dip"
+                app:sriv_border_width="1dip"
+                app:sriv_border_color="#000000"
+                app:sriv_oval="true"
+                android:layout_weight="4"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/default_user"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_profile_photo"
+                android:layout_width="match_parent"
+                android:layout_margin="52dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/camera_icon"
+                app:fabSize="mini"
+                android:clickable="true"
+                app:layout_anchorGravity="bottom|right|end"/>
+        </RelativeLayout>
 
         <TextView android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,7 +56,6 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold"
             android:id="@+id/textView_User"/>
-
 
         <Button
             android:id="@+id/btn_play"
