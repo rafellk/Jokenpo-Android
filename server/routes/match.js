@@ -353,6 +353,10 @@ router.put('/ragequit/:matchId/:playerId', function (req, res, next) {
 });
 
 router.post('/taunt/:matchId/:playerId/:taunt', (req, res, next) => {
+    let matchId = req.params.matchId;
+    let playerId = req.params.playerId;
+    let taunt = req.params.taunt;
+
     Match.findById(matchId, (error, match) => {
         if (error) {
             console.log('Error: ' + error);
