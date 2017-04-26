@@ -15,6 +15,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -35,6 +36,7 @@ public class MatchActivity extends BaseActivity {
     private Match mMatch = null;
     private Button mSubmit;
     private Button mExitButton;
+    private Button mTauntButton;
     private TextView mCurrentChoiceTextView = null;
     private TextView mChooseMoveTextView = null;
 
@@ -52,6 +54,7 @@ public class MatchActivity extends BaseActivity {
             SelectableRoundedImageView scissors = (SelectableRoundedImageView) findViewById(R.id.match_player_choice_scissors);
             mSubmit = (Button) findViewById(R.id.match_submit_button);
             mExitButton = (Button) findViewById(R.id.match_exit_button);
+            mTauntButton = (Button) findViewById(R.id.match_taunt_button);
             mCurrentChoiceTextView = (TextView) findViewById(R.id.match_player_choice_label);
             mChooseMoveTextView = (TextView) findViewById(R.id.match_player_choose_your_move);
 
@@ -95,6 +98,13 @@ public class MatchActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     exit();
+                }
+            });
+
+            mTauntButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sendTaunt();
                 }
             });
         }
@@ -187,7 +197,28 @@ public class MatchActivity extends BaseActivity {
     }
 
     private void sendTaunt() {
-        // TODO: code the send taunt action here
+        Intent intent = new Intent(MatchActivity.this, TauntListActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == AppCompatActivity.RESULT_OK) {
+            final String taunt = data.getStringExtra("taunt");
+
+            new AsyncTask<String, Void, HashMap>() {
+                @Override
+                protected HashMap doInBackground(String... params) {
+                    return WebService.taunt(mMatch.getId(), Utils.sLoggedPlayer.getId(), taunt);
+                }
+
+                @Override
+                protected void onPostExecute(HashMap hashMap) {
+                    Toast.makeText(MatchActivity.this, "Taunt sent :)", Toast.LENGTH_SHORT).show();
+                }
+            }.execute();
+        }
     }
 
     @Override
@@ -273,15 +304,19 @@ public class MatchActivity extends BaseActivity {
      * @param taunt - The string that represents the taunt type
      */
     private void handleTaunt(String taunt) {
+        // TODO: place the toast message in the string xml
         switch (taunt) {
             case Utils.sTAUNT_CRY:
-
+                Toast.makeText(this, "Do not cry looser :)", Toast.LENGTH_LONG).show();
                 break;
             case Utils.sTAUNT_GOOD_LUCK:
+                Toast.makeText(this, "Good luck have fun", Toast.LENGTH_LONG).show();
                 break;
             case Utils.sTAUNT_LOOSER:
+                Toast.makeText(this, "I will win bastard", Toast.LENGTH_LONG).show();
                 break;
             case Utils.sTAUNT_SMILE:
+                Toast.makeText(this, "Hihihi :)", Toast.LENGTH_LONG).show();
                 break;
         }
     }

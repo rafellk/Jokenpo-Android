@@ -45,6 +45,8 @@
     <string name="match_waiting_message">Waiting for player to make his move</string>
     <string name="match_cancel">Cancel</string>
     <string name="match_submit_move">Submit Move</string>
+    <string name="match_taunt">Taunt</string>
+
     <string name="match_exit_confirmation">Exit</string>
     <string name="match_exit_message">Are you sure you want to give up?</string>
     <string name="match_load_give_up">Giving up the game...</string>

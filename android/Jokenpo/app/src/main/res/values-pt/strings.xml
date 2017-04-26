@@ -45,6 +45,7 @@
     <string name="match_waiting_message">Esparando pelo movimento do adversário</string>
     <string name="match_cancel">Cancelar</string>
     <string name="match_submit_move">Enviar movimento</string>
+    <string name="match_taunt">Provocar</string>
     <string name="match_exit_confirmation">Sair</string>
     <string name="match_exit_message">Você tem certeza que quer desistir?</string>
     <string name="match_load_give_up">Desistindo do jogo...</string>

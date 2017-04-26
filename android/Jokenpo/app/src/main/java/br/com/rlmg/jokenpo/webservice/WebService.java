@@ -6,11 +6,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.KeyPair;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,10 +16,6 @@ import com.google.gson.Gson;
 
 import br.com.rlmg.jokenpo.models.GsonMatch;
 import br.com.rlmg.jokenpo.models.GsonPlayer;
-import br.com.rlmg.jokenpo.models.Match;
-import br.com.rlmg.jokenpo.models.Player;
-import br.com.rlmg.jokenpo.utils.InternalErrorCodes;
-import br.com.rlmg.jokenpo.utils.Utils;
 
 /**
  * Created by rlmg on 4/2/17.
@@ -175,5 +168,9 @@ public class WebService {
 
     public static HashMap ragequit(String matchId, String playerId) {
         return performRequest("/match/ragequit/" + matchId + "/" + playerId, "PUT", GsonMatch.class);
+    }
+
+    public static HashMap taunt(String matchId, String playerId, String taunt) {
+        return performRequest("/match/taunt/" + matchId + "/" + playerId + "/" + taunt, "POST", GsonMatch.class);
     }
 }
