@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="listArray">
+        <item>Português</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="listValues">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="listFontSize">
+        <item>@string/settings_font_size_small</item>
+        <item>@string/settings_font_size_normal</item>
+        <item>@string/settings_font_size_large</item>
+    </string-array>
+    <string-array name="listValuesFontSize">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+</resources>
