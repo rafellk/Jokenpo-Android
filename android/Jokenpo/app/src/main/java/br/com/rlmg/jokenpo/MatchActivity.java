@@ -307,16 +307,16 @@ public class MatchActivity extends BaseActivity {
         // TODO: place the toast message in the string xml
         switch (taunt) {
             case Utils.sTAUNT_CRY:
-                Toast.makeText(this, "Player 2 says: Do not cry looser :)", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, this.getString(R.string.taunt_message_cry), Toast.LENGTH_LONG).show();
                 break;
             case Utils.sTAUNT_GOOD_LUCK:
-                Toast.makeText(this, "Player 2 says: Good luck have fun", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, this.getString(R.string.taunt_message_good_luck), Toast.LENGTH_LONG).show();
                 break;
             case Utils.sTAUNT_LOOSER:
-                Toast.makeText(this, "Player 2 says: I will win bastard", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, this.getString(R.string.taunt_message_loser), Toast.LENGTH_LONG).show();
                 break;
             case Utils.sTAUNT_SMILE:
-                Toast.makeText(this, "Player 2 says: Hihihi :)", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, this.getString(R.string.taunt_message_smile), Toast.LENGTH_LONG).show();
                 break;
         }
     }

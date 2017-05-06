@@ -35,10 +35,10 @@ public class TauntListActivity extends AppCompatActivity {
 
         mListView = (ListView) findViewById(R.id.tauntListView);
         taunts = new ArrayList<>();
-        taunts.add(new Pair<String, String>(Utils.sTAUNT_LOOSER, "LOSER"));
-        taunts.add(new Pair<String, String>(Utils.sTAUNT_GOOD_LUCK, "GOOD LUCK"));
-        taunts.add(new Pair<String, String>(Utils.sTAUNT_SMILE, "SMILE"));
-        taunts.add(new Pair<String, String>(Utils.sTAUNT_CRY, "CRY"));
+        taunts.add(new Pair<String, String>(Utils.sTAUNT_LOOSER, this.getString(R.string.taunt_loser)));
+        taunts.add(new Pair<String, String>(Utils.sTAUNT_GOOD_LUCK, this.getString(R.string.taunt_good_luck)));
+        taunts.add(new Pair<String, String>(Utils.sTAUNT_SMILE, this.getString(R.string.taunt_smile)));
+        taunts.add(new Pair<String, String>(Utils.sTAUNT_CRY, this.getString(R.string.taunt_cry)));
 
         mListView.setAdapter(new TauntListViewAdapter());
 

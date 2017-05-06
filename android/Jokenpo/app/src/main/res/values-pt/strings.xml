@@ -30,6 +30,7 @@
     <string name="declined_match_dialog_title">Recusado</string>
     <string name="declined_match_dialog_message">Eita! O seu jogo foi recusado!! :(</string>
     <string name="declined_match_dialog_button">OK</string>
+    <string name="select_Image">Selecionar imagem</string>
 
     <!-- Room Activity -->
     <string name="room_progress_dialog_title">Desafio</string>
@@ -82,5 +83,13 @@
     <string name="settings_font_size_large">Grande</string>
     <string name="title_activity_taunt_list">TauntListActivity</string>
 
-    <string name="select_Image">Selecionar imagem</string>
+    <!-- Taunt Activity-->
+    <string name="taunt_loser">PERDEDOR</string>
+    <string name="taunt_good_luck">BOA SORTE</string>
+    <string name="taunt_smile">SORRIR</string>
+    <string name="taunt_cry">CHORAR</string>
+    <string name="taunt_message_loser">Jogador 2 diz: Vou ganhar!</string>
+    <string name="taunt_message_good_luck">Jogador 2 diz: Boa sorte e divirta-se</string>
+    <string name="taunt_message_smile">Jogador 2 diz: Hahaha :)</string>
+    <string name="taunt_message_cry">Jogador 2 diz: Não chore, perdedor! :)</string>
 </resources>
