@@ -1,18 +1,22 @@
 package br.com.rlmg.jokenpo;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -20,9 +24,14 @@ import android.widget.TextView;
 
 import com.joooonho.SelectableRoundedImageView;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import br.com.rlmg.jokenpo.models.Match;
+import br.com.rlmg.jokenpo.utils.ImagePicker;
 import br.com.rlmg.jokenpo.utils.Utils;
 import br.com.rlmg.jokenpo.webservice.WebService;
 
@@ -75,7 +84,7 @@ public class PlayerActivity extends BaseActivity {
 
         mFloatButtonProfilePhoto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                GetImageFromGallery();
+                chooseImage();
             }
         });
 
@@ -102,21 +111,22 @@ public class PlayerActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Uri imageUri = data.getData();
-            try
-            {
-                Bitmap image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                Utils.sLoggedPlayer.setProfileImage(image);
-            }
-            catch (Exception e){ }
+        switch(requestCode) {
+            case REQUEST_IMAGE_CAPTURE:
+                Bitmap bitmap = ImagePicker.getImageFromResult(this, resultCode, data);
+                if(bitmap != null) {
+                    Utils.sLoggedPlayer.setProfileImage(bitmap);
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
         }
     }
 
-    private void GetImageFromGallery() {
-        Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(pickPhoto , REQUEST_IMAGE_CAPTURE);
+    private void chooseImage() {
+        Intent chooseImageIntent = ImagePicker.getPickImageIntent(this);
+        startActivityForResult(chooseImageIntent, REQUEST_IMAGE_CAPTURE);
     }
 
     public void play(View v) {

@@ -46,6 +46,7 @@
     <string name="match_cancel">Cancelar</string>
     <string name="match_submit_move">Enviar movimento</string>
     <string name="match_taunt">Provocar</string>
+
     <string name="match_exit_confirmation">Sair</string>
     <string name="match_exit_message">Você tem certeza que quer desistir?</string>
     <string name="match_load_give_up">Desistindo do jogo...</string>
@@ -79,4 +80,7 @@
     <string name="settings_font_size_small">Pequeno</string>
     <string name="settings_font_size_normal">Normal</string>
     <string name="settings_font_size_large">Grande</string>
+    <string name="title_activity_taunt_list">TauntListActivity</string>
+
+    <string name="select_Image">Selecionar imagem</string>
 </resources>

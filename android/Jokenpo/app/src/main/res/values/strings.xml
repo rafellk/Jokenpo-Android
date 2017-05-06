@@ -81,4 +81,6 @@
     <string name="settings_font_size_normal">Normal</string>
     <string name="settings_font_size_large">Large</string>
     <string name="title_activity_taunt_list">TauntListActivity</string>
+
+    <string name="select_Image">Select Image</string>
 </resources>
