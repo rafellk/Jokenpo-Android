@@ -2,6 +2,7 @@ package br.com.rlmg.jokenpo;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -10,8 +11,12 @@ import android.widget.TextView;
 
 import com.joooonho.SelectableRoundedImageView;
 
+import java.util.HashMap;
+
 import br.com.rlmg.jokenpo.models.Match;
+import br.com.rlmg.jokenpo.models.Player;
 import br.com.rlmg.jokenpo.utils.Utils;
+import br.com.rlmg.jokenpo.webservice.WebService;
 
 public class MatchResultActivity extends MatchMakingProcessBaseActivity {
 
@@ -21,6 +26,8 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
     private TextView mLoggedPlayerTextView;
     private TextView mPlayer2TextView;
     private TextView mResultTextView;
+    private TextView mLoggedPlayerNameTextView;
+    private TextView mPlayer2NameTextView;
     private Button mPlayAgainButton;
     private Button mExitButton;
 
@@ -37,6 +44,8 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
             mLoggedPlayerTextView = (TextView) findViewById(R.id.match_result_logged_player_text);
             mPlayer2TextView = (TextView) findViewById(R.id.match_result_player2_text);
             mResultTextView = (TextView) findViewById(R.id.match_result_text);
+            mLoggedPlayerNameTextView = (TextView) findViewById(R.id.match_result_logged_player_name_text);
+            mPlayer2NameTextView = (TextView) findViewById(R.id.match_result_player2_name_text);
 
             mPlayAgainButton = (Button) findViewById(R.id.match_result_play_again_button);
             mExitButton = (Button) findViewById(R.id.match_result_exit_button);
@@ -63,13 +72,32 @@ public class MatchResultActivity extends MatchMakingProcessBaseActivity {
                 }
             });
 
+            String oponentId = null;
+
             if (Utils.sLoggedPlayer.getId().equals(mPlayingMatch.getPlayer1())) {
                 mLoggedPlayer.setImageResource(Utils.getImageIdForChoice(mPlayingMatch.getPlayer1Move()));
                 mPlayer2.setImageResource(Utils.getImageIdForChoice(mPlayingMatch.getPlayer2Move()));
+                oponentId = mPlayingMatch.getPlayer2();
             } else {
                 mPlayer2.setImageResource(Utils.getImageIdForChoice(mPlayingMatch.getPlayer1Move()));
                 mLoggedPlayer.setImageResource(Utils.getImageIdForChoice(mPlayingMatch.getPlayer2Move()));
+                oponentId = mPlayingMatch.getPlayer1();
             }
+
+            new AsyncTask<String, Void, HashMap>() {
+                @Override
+                protected HashMap doInBackground(String... params) {
+                    String oponentId = params[0];
+                    return WebService.getPlayer(oponentId);
+                }
+
+                @Override
+                protected void onPostExecute(HashMap hashMap) {
+                    Player oponent = Utils.getPlayerFromJson(hashMap);
+                    mPlayer2NameTextView.setText(oponent.getName());
+                    mLoggedPlayerNameTextView.setText(Utils.sLoggedPlayer.getName());
+                }
+            }.execute(oponentId);
 
             if (mPlayingMatch.getWinner() != null) {
                 if (mPlayingMatch.getWinner().equals(Utils.sLoggedPlayer.getId())) {
