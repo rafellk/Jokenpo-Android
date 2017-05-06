@@ -30,6 +30,7 @@
     <string name="declined_match_dialog_title">Recusado</string>
     <string name="declined_match_dialog_message">Eita! O seu jogo foi recusado!! :(</string>
     <string name="declined_match_dialog_button">OK</string>
+    <string name="select_Image">Selecionar imagem</string>
 
     <!-- Room Activity -->
     <string name="room_progress_dialog_title">Desafio</string>
@@ -46,6 +47,7 @@
     <string name="match_cancel">Cancelar</string>
     <string name="match_submit_move">Enviar movimento</string>
     <string name="match_taunt">Provocar</string>
+
     <string name="match_exit_confirmation">Sair</string>
     <string name="match_exit_message">Você tem certeza que quer desistir?</string>
     <string name="match_load_give_up">Desistindo do jogo...</string>
@@ -79,4 +81,15 @@
     <string name="settings_font_size_small">Pequeno</string>
     <string name="settings_font_size_normal">Normal</string>
     <string name="settings_font_size_large">Grande</string>
+    <string name="title_activity_taunt_list">TauntListActivity</string>
+
+    <!-- Taunt Activity-->
+    <string name="taunt_loser">PERDEDOR</string>
+    <string name="taunt_good_luck">BOA SORTE</string>
+    <string name="taunt_smile">SORRIR</string>
+    <string name="taunt_cry">CHORAR</string>
+    <string name="taunt_message_loser">Jogador 2 diz: Vou ganhar!</string>
+    <string name="taunt_message_good_luck">Jogador 2 diz: Boa sorte e divirta-se</string>
+    <string name="taunt_message_smile">Jogador 2 diz: Hahaha :)</string>
+    <string name="taunt_message_cry">Jogador 2 diz: Não chore, perdedor! :)</string>
 </resources>
